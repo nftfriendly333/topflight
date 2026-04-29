@@ -1,10 +1,9 @@
-[pve-marketplace Alpha V 1.html](https://github.com/user-attachments/files/27182879/pve-marketplace.Alpha.V.1.html)
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PvE Bazaar — Community Marketplace</title>
+<title>PvE Shop and Spree</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -626,12 +625,11 @@
     flex-wrap: wrap;
   }
   .ledger-legend span { display: flex; align-items: center; gap: 6px; }
-  .dot-active, .dot-grace, .dot-burned {
+  .dot-active, .dot-burned {
     width: 8px; height: 8px;
     display: inline-block;
   }
   .dot-active { background: var(--moss); }
-  .dot-grace { background: var(--gold); }
   .dot-burned { background: var(--rust); }
 
   .ledger-empty {
@@ -1757,85 +1755,252 @@
     .hero-content { padding: 0 20px; max-width: 100%; }
     .hero-stats { display: none; }
     .hero-dots { left: 20px; }
-  }
-
-
-  /* AMBIENT AUDIO PLAYER */
-  .audio-ctrl {
+  }/* ── ENTRY SCREEN ─────────────────────────────────────────────────── */
+  #entryScreen {
     position: fixed;
-    bottom: 24px;
-    left: 24px;
-    z-index: 9999;
+    inset: 0;
+    z-index: 99999;
+    background: #000;
     display: flex;
-    align-items: center;
-    gap: 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .audio-btn {
-    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background: rgba(10,9,8,0.88);
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    backdrop-filter: blur(6px);
-  }
-  .audio-btn:hover { background: rgba(201,162,74,0.15); }
-  .audio-btn.muted { border-color: var(--ink-dim); color: var(--ink-dim); }
-  .audio-wave {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    height: 14px;
-  }
-  .audio-wave span {
-    display: block;
-    width: 2px;
-    background: var(--gold);
-    border-radius: 1px;
-    animation: wave-bar 1.2s ease-in-out infinite;
-  }
-  .audio-wave span:nth-child(1) { height: 4px;  animation-delay: 0s;    animation-duration: 1.0s; }
-  .audio-wave span:nth-child(2) { height: 10px; animation-delay: 0.15s; animation-duration: 1.3s; }
-  .audio-wave span:nth-child(3) { height: 6px;  animation-delay: 0.3s;  animation-duration: 0.9s; }
-  .audio-wave span:nth-child(4) { height: 12px; animation-delay: 0.1s;  animation-duration: 1.1s; }
-  .audio-wave span:nth-child(5) { height: 4px;  animation-delay: 0.25s; animation-duration: 1.4s; }
-  @keyframes wave-bar {
-    0%, 100% { transform: scaleY(0.4); }
-    50%       { transform: scaleY(1.0); }
-  }
-  .audio-btn.muted .audio-wave span { animation: none; transform: scaleY(0.3); background: var(--ink-dim); }
-  .audio-track-name {
-    max-width: 0;
     overflow: hidden;
-    white-space: nowrap;
-    transition: max-width 0.4s ease, opacity 0.4s ease;
-    opacity: 0;
-    font-size: 9px;
-    color: var(--ink-dim);
-    letter-spacing: 0.1em;
+    cursor: none;
   }
-  .audio-ctrl:hover .audio-track-name {
-    max-width: 160px;
-    opacity: 1;
+  #matrixCanvas {
+    position: absolute;
+    inset: 0;
+    opacity: 0.55;
+  }
+  .entry-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    animation: entryFadeIn 1.8s ease forwards;
+  }
+  @keyframes entryFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .entry-logo {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(36px, 7vw, 80px);
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    color: #c9a24a;
+    text-shadow: 0 0 40px rgba(201,162,74,0.8), 0 0 80px rgba(201,162,74,0.4);
+    animation: logoPulse 3s ease-in-out infinite;
+    white-space: nowrap;
+  }
+  @keyframes logoPulse {
+    0%,100% { text-shadow: 0 0 40px rgba(201,162,74,0.8),0 0 80px rgba(201,162,74,0.4); }
+    50%      { text-shadow: 0 0 60px rgba(201,162,74,1),0 0 120px rgba(201,162,74,0.6),0 0 180px rgba(161,68,38,0.4); }
+  }
+  .entry-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(10px, 1.5vw, 13px);
+    letter-spacing: 0.5em;
+    color: rgba(201,162,74,0.6);
+    text-transform: uppercase;
+    animation: entryFadeIn 2.5s ease forwards;
+  }
+  .entry-line {
+    width: clamp(200px, 40vw, 400px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c9a24a, transparent);
+    opacity: 0.6;
+  }
+  .enter-btn {
+    position: relative;
+    padding: 18px 56px;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(13px, 2vw, 17px);
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: #0a0908;
+    background: #c9a24a;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    animation: entryFadeIn 3s ease forwards;
+  }
+  .enter-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+  .enter-btn:hover { background: #f0c878; transform: scale(1.04); box-shadow: 0 0 40px rgba(201,162,74,0.6); }
+  .enter-btn:hover::before { transform: translateX(100%); }
+  .enter-btn:active { transform: scale(0.97); }
+  .enter-btn-ring {
+    position: absolute;
+    inset: -8px;
+    border: 1px solid rgba(201,162,74,0.4);
+    clip-path: polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%);
+    animation: ringPulse 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes ringPulse {
+    0%,100% { opacity: 0.3; }
+    50%      { opacity: 0.8; }
+  }
+  .entry-glyph {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(201,162,74,0.35);
+    letter-spacing: 0.15em;
+    text-align: center;
+    max-width: 500px;
+    line-height: 2;
+    animation: entryFadeIn 3.5s ease forwards;
+  }
+  /* Entry exit animation */
+  .entry-exit {
+    animation: entryExit 1.2s cubic-bezier(0.4,0,0.2,1) forwards !important;
+  }
+  @keyframes entryExit {
+    0%   { opacity: 1; transform: scale(1); filter: blur(0); }
+    60%  { opacity: 1; transform: scale(1.04); filter: blur(0); }
+    100% { opacity: 0; transform: scale(1.5); filter: blur(20px); pointer-events: none; }
   }
 
+  /* ── DYNAMIC PAGE EFFECTS ─────────────────────────────────────────── */
+  #particleCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+  }
+  .wrap { position: relative; z-index: 1; }
+
+  /* Scroll-reveal: sections start invisible */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* Stagger children */
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal-stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
+  .reveal-stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.1s; }
+  .reveal-stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.2s; }
+  .reveal-stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.3s; }
+  .reveal-stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.4s; }
+  .reveal-stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.5s; }
+  .reveal-stagger.visible > *:nth-child(7) { opacity:1; transform:none; transition-delay:0.6s; }
+  .reveal-stagger.visible > *:nth-child(8) { opacity:1; transform:none; transition-delay:0.7s; }
+  .reveal-stagger.visible > *:nth-child(9) { opacity:1; transform:none; transition-delay:0.8s; }
+
+  /* Gold cursor trail dot */
+  .cursor-trail {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #f0c878 0%, #c9a24a 50%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.5s;
+    mix-blend-mode: screen;
+  }
+
+  /* Item card hover lift */
+  .item {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(201,162,74,0.15);
+  }
+
+  /* Ticker glow on scroll */
+  .ticker { transition: opacity 0.3s; }
+
+  /* Header ambient glow */
+  header::before {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,162,74,0.5), transparent);
+    animation: headerGlow 4s ease-in-out infinite;
+  }
+  @keyframes headerGlow {
+    0%,100% { opacity:0.4; }
+    50% { opacity:1; }
+  }
+  header { position: relative; overflow: visible; }
+
+
+  .sort-btn {
+    padding: 5px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sort-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .sort-btn.active { background: var(--gold); border-color: var(--gold); color: var(--bg-0); font-weight: 700; }
 </style>
 </head>
 <body>
+
+
+<!-- ── MATRIX ENTRY SCREEN ─────────────────────────────────────────── -->
+<div id="entryScreen">
+  <canvas id="matrixCanvas"></canvas>
+  <div class="entry-content">
+    <div class="entry-sub">Welcome to</div>
+    <div class="entry-logo">⚔ PvE SHOP & SPREE ⚔</div>
+    <div class="entry-line"></div>
+    <button class="enter-btn" id="enterBtn" onclick="enterBazaar()">
+      <span class="enter-btn-ring"></span>
+      ENTER THE SHOP
+    </button>
+    <div class="entry-glyph">
+      ERC-1155 · OPTIMISM · ORACLE-PRICED · LP MARKET MAKER<br>
+      COMMUNITY FORGED · ON-CHAIN FOREVER
+    </div>
+  </div>
+</div>
+
+<!-- Particle canvas (behind page content) -->
+<canvas id="particleCanvas"></canvas>
 
 <div class="wrap">
 
@@ -1851,7 +2016,7 @@
         <div class="hero-title">Community-<span>Forged</span><br>Items. On-Chain.</div>
         <div class="hero-body">Every item minted here is an ERC-1155 NFT on Optimism — verifiable, tradeable, and yours forever.</div>
         <div class="hero-cta">
-          <button class="hero-btn" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Browse Bazaar</button>
+          <button class="hero-btn" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Browse Shop</button>
           <button class="hero-btn outline" onclick="openWallet()">My Wallet</button>
         </div>
       </div>
@@ -1900,7 +2065,7 @@
   <header>
     <div class="brand">
       <div>
-        <div class="brand-mark">PvE <span>Bazaar</span></div>
+        <div class="brand-mark">PvE <span>Shop & Spree</span></div>
         <div class="brand-sub">Player-Forged Goods · Settled in $PvE</div>
       </div>
       <div class="wallet" onclick="openWallet()" title="Click to open wallet">
@@ -1916,52 +2081,46 @@
   </header>
 
   <!-- Oracle Law — full ruleset -->
-  <div class="oracle-law">
+  <div class="oracle-law reveal">
     <div class="oracle-law-header">
       <div class="oracle-law-title">⚔ &nbsp; ORACLE LAW &nbsp; ⚔</div>
     </div>
     <div class="oracle-law-body">
+
       <div class="oracle-rule">
         <span class="oracle-rule-num">I.</span>
-        <span class="oracle-rule-text">Hold <b>≥10,002 $PvE</b> for <b>48 hours</b> before casting any vote</span>
+        <span class="oracle-rule-text">Hold <b>≥10,002 $PvE</b> to vote · <b>3 votes per wallet per week</b> · resets Monday UTC</span>
       </div>
+
       <div class="oracle-rule">
         <span class="oracle-rule-num">II.</span>
-        <span class="oracle-rule-text"><b>Weeks 1–3:</b> 3 votes per wallet per week · resets Monday 00:00 UTC</span>
+        <span class="oracle-rule-text">Each vote moves score <b>+1.5–3 pts</b> (random flat) · <b>one vote per founder per week</b> · no double-voting</span>
       </div>
       <div class="oracle-rule">
         <span class="oracle-rule-num">III.</span>
-        <span class="oracle-rule-text"><b>Week 4+:</b> 3 lifetime votes · older votes decay in weight over time</span>
-      </div>
-      <div class="oracle-rule">
-        <span class="oracle-rule-num">IV.</span>
-        <span class="oracle-rule-text">Each vote moves score <b>0.5–2% of gap to 1000</b> · perfect score requires mass adoption</span>
-      </div>
-      <div class="oracle-rule">
-        <span class="oracle-rule-num">V.</span>
         <span class="oracle-rule-text">Max <b>3 active listings</b> · <b>10 $PvE deposit</b> per listing · hard cap <b>69,420 $PvE</b></span>
       </div>
       <div class="oracle-rule">
-        <span class="oracle-rule-num">VI.</span>
+        <span class="oracle-rule-num">IV.</span>
         <span class="oracle-rule-text"><b>Min 5 editions</b> per item · <b>prices are Oracle-set</b> — no manual pricing allowed</span>
       </div>
       <div class="oracle-rule">
-        <span class="oracle-rule-num">VII.</span>
+        <span class="oracle-rule-num">V.</span>
         <span class="oracle-rule-text">Sales are <b>first come, first served</b> — earliest buyer receives Edition #1</span>
       </div>
       <div class="oracle-rule">
-        <span class="oracle-rule-num">VIII.</span>
-        <span class="oracle-rule-text"><b>No refunds</b> on community-flagged items · votes burn after 7-day grace period</span>
+        <span class="oracle-rule-num">VI.</span>
+        <span class="oracle-rule-text"><b>No refunds</b> on community-flagged items · reports reviewed by community</span>
       </div>
       <div class="oracle-rule">
-        <span class="oracle-rule-num">IX.</span>
+        <span class="oracle-rule-num">VII.</span>
         <span class="oracle-rule-text">Instant sell to <b>LP Market Maker at 80%</b> of Oracle price always available</span>
       </div>
     </div>
   </div>
 
   <!-- Engagement Oracle — 4-cell grid panel -->
-  <div class="founder-panel">
+  <div class="founder-panel reveal-stagger">
 
     <!-- Cell 1: Founder identity -->
     <div class="founder-cell">
@@ -1971,14 +2130,14 @@
         <a href="https://x.com/PvEcosystem" target="_blank" rel="noopener">@PvEcosystem ↗</a>
       </div>
       <div style="margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-dim);line-height:1.7;">
-        Iron Arena · Trade Together<br>Reap What You Sow · Bazaar
+        Iron Arena · Trade Together<br>Reap What You Sow · Shop & Spree
       </div>
     </div>
 
     <!-- Cell 2: Engagement score -->
     <div class="founder-cell">
       <div class="cell-label">Engagement Score</div>
-      <div class="score-display" id="scoreDisplay">800.00</div>
+      <div class="score-display" id="scoreDisplay">100.00</div>
       <div class="score-bar"><div class="score-bar-fill" id="scoreBar" style="width:80%"></div></div>
       <div id="scoreDistLabel" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);margin-top:2px;"></div>
       <div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-dim);">
@@ -2000,7 +2159,7 @@
     <div class="founder-cell">
       <div class="cell-label">
         Cast Your Vote
-        <span id="votesLeft" class="oracle-votes-chip">3/3 this week</span>
+        <span id="votesLeft" class="oracle-votes-chip">∞ votes</span>
       </div>
       <div class="vote-block">
         <div class="vote-row">
@@ -2011,7 +2170,7 @@
           <span><span class="v-up">▲ <span id="upCount">412</span></span> upvotes</span>
           <span><span class="v-down">▼ <span id="downCount">88</span></span> downvotes</span>
         </div>
-        <div class="vote-locked" id="voteLockMsg">Hold ≥10,002 $PvE · 48h · vote to move the score</div>
+        <div class="vote-locked" id="voteLockMsg">Hold ≥10,002 $PvE · 3 votes/week · resets Monday UTC</div>
       </div>
       <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line);">
         <div id="phaseLabel" class="oracle-phase-label"></div>
@@ -2022,7 +2181,7 @@
   </div>
 
   <!-- On-chain status bar -->
-  <div class="onchain-bar">
+  <div class="onchain-bar reveal">
     <div class="onchain-bar-inner">
       <div class="onchain-pill">
         <span class="live-dot"></span>
@@ -2060,7 +2219,6 @@
     <div class="ledger-body" id="ledgerBody"></div>
     <div class="ledger-legend">
       <span><span class="dot-active"></span> Active · counts toward score</span>
-      <span><span class="dot-grace"></span> Grace · 7-day window to re-up</span>
       <span><span class="dot-burned"></span> Burned · permanently excluded</span>
     </div>
   </div>
@@ -2074,20 +2232,22 @@
     <div class="metric"><div class="v" id="mMmListings">—</div><div class="k">MM Listings</div></div>
   </div>
 
-  <div class="toolbar">
+  <div class="toolbar reveal">
     <div class="filters" id="filters">
-      <button class="filter active" data-filter="all">All</button>
-      <button class="filter" data-filter="weapon">Weapons</button>
-      <button class="filter" data-filter="armor">Armor</button>
-      <button class="filter" data-filter="cosmetic">Cosmetics</button>
-      <button class="filter" data-filter="utility">Utility</button>
-      <button class="filter" data-filter="lore">Lore</button>
-      <button class="filter" data-filter="music">♪ Music</button>
+
     </div>
     <button class="btn" id="listBtn" onclick="openListModal()">+ List an Item</button>
   </div>
 
-  <div class="grid" id="grid"></div>
+
+  <!-- Sort controls -->
+  <div id="sortBar" style="display:flex;gap:8px;align-items:center;padding:0 0 12px;flex-wrap:wrap;">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--ink-dim);text-transform:uppercase;margin-right:4px;">Sort by</span>
+    <button class="sort-btn active" data-sort="score" onclick="setSort('score')">⚡ Best Score</button>
+    <button class="sort-btn" data-sort="volume" onclick="setSort('volume')">◈ Volume</button>
+    <button class="sort-btn" data-sort="combined" onclick="setSort('combined')">▲ Score × Volume</button>
+  </div>
+  <div class="grid reveal-stagger" id="grid"></div>
 </div>
 
 <!-- VOTE MODAL -->
@@ -2100,7 +2260,7 @@
       <b>⚠ ORACLE LAW</b>
       <ul>
         <li>Your wallet must hold at least <b style="color:var(--gold-bright)">10,002 $PvE for 48h</b> before voting.</li>
-        <li><b style="color:var(--gold-bright)">Weeks 1–3 (bootstrap):</b> 3 votes/wallet/week — resets Monday 00:00 UTC.</li>
+        <li><b style="color:var(--gold-bright)">Weeks 1–3 (bootstrap):</b> 3 votes/wallet/week — no no reset 00:00 UTC.</li>
         <li><b style="color:var(--gold-bright)">Week 4+ (decay):</b> 3 lifetime votes total — older votes count less over time.</li>
         <li>Votes fall off if balance drops below threshold. <b style="color:var(--gold-bright)">7-day grace</b>, then they burn.</li>
       </ul>
@@ -2111,7 +2271,7 @@
     <div class="modal-row"><span>Founder</span><span>FibTechnician (@PvEcosystem)</span></div>
     <div class="modal-row"><span>Vote direction</span><span id="voteDir">—</span></div>
     <div class="modal-row"><span>Score change</span><span id="voteImpact">—</span></div>
-    <div class="modal-row total"><span>Votes remaining after this</span><span id="votesAfter">—</span></div>
+    <div class="modal-row total"><span>Votes</span><span id="votesAfter">Unlimited</span></div>
     <div class="modal-row" style="border-bottom:none;padding-top:8px;">
       <span style="color:var(--ink-dim);">Distance to perfect score</span>
       <span id="distToMax" style="color:var(--gold);">—</span>
@@ -2181,23 +2341,12 @@
       <div>
         <label>Category</label>
         <select id="newCategory">
-          <option value="weapon">Weapon</option>
-          <option value="armor">Armor</option>
-          <option value="cosmetic">Cosmetic</option>
-          <option value="utility">Utility</option>
-          <option value="lore">Lore Fragment</option>
+          <option value="item">Item</option>
           <option value="music">Music Track</option>
         </select>
       </div>
       <div>
-        <label>Rarity</label>
-        <select id="newRarity">
-          <option value="common">Common</option>
-          <option value="uncommon">Uncommon</option>
-          <option value="rare">Rare</option>
-          <option value="epic">Epic</option>
-          <option value="legendary">Legendary</option>
-        </select>
+        
       </div>
       <div>
         <label>Description</label>
@@ -2332,7 +2481,7 @@
 
 <script>
 // ============================================================
-// PvE BAZAAR — community marketplace prototype
+// PvE Shop and Spree — community marketplace prototype
 // VOTING MODEL (continuous eligibility):
 //   - Voter must hold >=10,002 $PvE in wallet to cast a vote
 //   - Each wallet has 3 lifetime founder votes
@@ -2342,27 +2491,23 @@
 // ============================================================
 
 const ELIGIBILITY_MIN = 10002;          // Minimum $PvE hold to cast & maintain
-const WEEKLY_VOTE_CAP = 3;              // Votes per wallet per week during bootstrap phase (weeks 1–3)
-const LIFETIME_VOTE_CAP = 3;            // Votes per wallet total during decay phase (week 4+)
-const BOOTSTRAP_WEEKS = 3;             // How many weeks the weekly-reset phase lasts
-const HOLD_DURATION_MS = 48 * 60 * 60 * 1000; // Must hold ≥10,002 for 48h before voting
+// Votes: unlimited — any wallet holding ≥10,002 $PvE may vote at any time
+// No holding period — balance ≥10,002 $PvE is the only requirement to vote
 const FOUNDER_LISTING_CAP = 3;          // Max simultaneous active listings per founder
 const LISTING_DEPOSIT = 10;             // $PvE locked per active listing, returned on sale/unlist
 const MIN_EDITIONS = 5;                 // Minimum editions per item listing
 // Rarity floor base prices — Oracle multiplies these by current multiplier + rarity fee
 // Users cannot manually set prices; the oracle sets them from rarity tier
-const RARITY_FLOOR = { common: 25, uncommon: 75, rare: 200, epic: 500, legendary: 1200 };
+// Rarity removed — basePrice is the sole pricing input
 
 function oraclePrice(rarity) {
+  // Rarity removed — use a standard base of 100 for unrealized P&L estimates
   const mult = scoreToMultiplier(computeScore());
-  return Math.min(
-    RARITY_FLOOR[rarity] * mult * (1 + rarityFee(rarity)),
-    MAX_FINAL_PRICE
-  );
+  return Math.min(100 * mult, MAX_FINAL_PRICE);
 }
 
-function oracleBasePrice(rarity) {
-  return RARITY_FLOOR[rarity];
+function oracleBasePrice() {
+  return 100;
 }
 const MAX_FINAL_PRICE = 69420;          // Hard cap: no item may sell for more than 69,420 $PvE
 
@@ -2407,7 +2552,7 @@ function voteWeight(castAt) {
   return 0.25;
 }
 
-// PRODUCTION: set this to the actual UTC timestamp of your bazaar launch
+// PRODUCTION: set this to the actual UTC timestamp of your shop launch
 // For the prototype we simulate launch as 2 weeks ago so bootstrap phase is active
 const LAUNCH_TS_DEFAULT = Date.now() - 14 * 24 * 60 * 60 * 1000; // 2 weeks ago = week 2 of bootstrap
 
@@ -2442,8 +2587,8 @@ function isoWeek(date) {
   return { week: Math.ceil((((d - yearStart) / 86400000) + 1) / 7), year: d.getUTCFullYear() };
 }
 
-function currentWeekKey() {
-  const { week, year } = isoWeek(new Date());
+function currentWeekKey(date) {
+  const { week, year } = isoWeek(date || new Date());
   return `${year}-W${week}`;
 }
 
@@ -2469,28 +2614,20 @@ function fmtCountdown(ms) {
 // Pre-seeded vote ledger demonstrating the three states
 // In production, this comes from the VotingRegistry contract
 const seedLedger = [
-  { id: 'v1', voter: 'drifter.eth',      balance: 14200, direction: 'up',   castAt: Date.now() - 12 * 24*60*60*1000, droppedAt: null },
-  { id: 'v2', voter: 'thane_g',          balance: 11500, direction: 'up',   castAt: Date.now() - 10 * 24*60*60*1000, droppedAt: null },
-  { id: 'v3', voter: 'kingless',         balance: 28000, direction: 'up',   castAt: Date.now() - 9  * 24*60*60*1000, droppedAt: null },
-  { id: 'v4', voter: 'ashenwarden',      balance: 10800, direction: 'up',   castAt: Date.now() - 8  * 24*60*60*1000, droppedAt: null },
-  { id: 'v5', voter: 'scribe.dao',       balance: 16400, direction: 'up',   castAt: Date.now() - 7  * 24*60*60*1000, droppedAt: null },
-  // This voter dropped below threshold 3 days ago — now in grace, has 4 days left
-  { id: 'v6', voter: '0x..3fA1',         balance: 4200,  direction: 'up',   castAt: Date.now() - 6  * 24*60*60*1000, droppedAt: Date.now() - 3 * 24*60*60*1000 },
-  { id: 'v7', voter: 'shade_19',         balance: 12100, direction: 'down', castAt: Date.now() - 5  * 24*60*60*1000, droppedAt: null },
-  // This one dumped 9 days ago, grace expired -> vote BURNED
-  { id: 'v8', voter: '0x..91eD',         balance: 850,   direction: 'down', castAt: Date.now() - 14 * 24*60*60*1000, droppedAt: Date.now() - 9 * 24*60*60*1000 },
-  { id: 'v9', voter: 'alchemist0',       balance: 19500, direction: 'up',   castAt: Date.now() - 4  * 24*60*60*1000, droppedAt: null },
-  { id: 'v10', voter: 'the_cartographer', balance: 10005, direction: 'up',  castAt: Date.now() - 3  * 24*60*60*1000, droppedAt: null },
-  { id: 'v11', voter: '0x..b2C3',        balance: 250,   direction: 'down', castAt: Date.now() - 20 * 24*60*60*1000, droppedAt: Date.now() - 15 * 24*60*60*1000 },
-  { id: 'v12', voter: 'smallhands',      balance: 45000, direction: 'up',   castAt: Date.now() - 2  * 24*60*60*1000, droppedAt: null },
+    { id: 'v1', voter: 'drifter.eth',       balance: 14200, direction: 'up',   castAt: Date.now() - 12 * 24*60*60*1000, droppedAt: null },
+  { id: 'v2', voter: 'thane_g',           balance: 11500, direction: 'up',   castAt: Date.now() - 10 * 24*60*60*1000, droppedAt: null },
+  { id: 'v3', voter: 'kingless',          balance: 28000, direction: 'up',   castAt: Date.now() - 9  * 24*60*60*1000, droppedAt: null },
+  { id: 'v4', voter: 'ashenwarden',       balance: 10800, direction: 'up',   castAt: Date.now() - 8  * 24*60*60*1000, droppedAt: null },
+  { id: 'v5', voter: 'shade_19',          balance: 12100, direction: 'down', castAt: Date.now() - 5  * 24*60*60*1000, droppedAt: null },
+  { id: 'v6', voter: 'smallhands',        balance: 45000, direction: 'up',   castAt: Date.now() - 2  * 24*60*60*1000, droppedAt: null },
 ];
 
 const state = {
   balance: 10500,
-  heldSince: Date.now() - 72 * 60 * 60 * 1000, // simulated: held for 72h already (eligible)
+  heldSince: 0, // hold period removed — balance check only
   lockedDeposit: 0,  // $PvE currently locked in listing deposits
-  founderScore: 800, // loaded from localStorage below
-  prevScore: 800,
+  founderScore: 100, // loaded from localStorage below
+  prevScore: 100,
   filter: 'all',
   items: [],
   // Per-wallet voting state for the connected user
@@ -2507,6 +2644,7 @@ const state = {
   totalEarned: 0,    // cumulative $PvE earned from sales
   txHistory: [],     // [{ type: 'buy'|'sell'|'list'|'unlist', itemName, amount, ts }]
   drawerTab: 'inventory',
+  sortOrder: 'score',
   // P&L ledger — one entry per realized sale
   pnlLedger: [],     // [{ itemName, rarity, costBasis, salePrice, pnl, ts }]
   totalCostBasis: 0, // running total of what was spent on currently held items
@@ -2561,22 +2699,16 @@ function fmtTimeLeft(ms) {
 // ============================================================
 // SCORE MODEL — Asymptotic / Mass-Adoption
 // ============================================================
-// Each vote moves the score by a random 0.5%–2% of the REMAINING
-// distance to 1000. This means:
-//   - Early votes (score ~800) move it by ~1–16 points
-//   - Near perfect (score ~990) move it by only ~0.1–2 points
-//   - A single whale cannot carry the founder to 1000 alone;
-//     it takes broad community participation across many wallets
-//   - Downvotes move the score back toward 800 by the same logic
-//
-// Score is stored in localStorage (keyed by week) so it persists
-// between page reloads and naturally carries over each week.
+// Each vote moves the score by a flat random amount between 1.5 and 3 points.
+// Direction: +1 (upvote) adds to score, -1 (downvote) subtracts.
+// Clamped to [SCORE_BASE, SCORE_CEILING].
 // ============================================================
 
-const SCORE_MIN_PCT = 0.005;   // 0.5%
-const SCORE_MAX_PCT = 0.020;   // 2.0%
-const SCORE_BASE    = 800;     // floor / starting point
-const SCORE_CEILING = 1000;    // only reachable via genuine mass adoption
+const SCORE_MIN_PTS = 1.5;    // minimum points per vote
+const SCORE_MAX_PTS = 3.0;    // maximum points per vote
+const WEEKLY_VOTE_CAP = 3;    // max votes per wallet per week (resets Monday UTC)
+const SCORE_BASE    = 100;     // floor / starting point — score 100 = 1× multiplier
+const SCORE_CEILING = 1000;    // only reachable via genuine mass adoption — score 1000 = 10×
 
 // Storage key — changes each week so bootstrap resets are reflected
 function scoreStorageKey() {
@@ -2601,18 +2733,10 @@ function persistScore(score) {
   try { localStorage.setItem(scoreStorageKey(), String(score)); } catch(e) {}
 }
 
-// How much a single vote moves the score.
-// Direction: +1 (upvote) or -1 (downvote).
-// Upvote closes the gap to 1000; downvote opens it back toward 800.
+// How much a single vote moves the score: flat random 1.5–3 pts.
 function scoreImpact(currentScore, direction) {
-  const pct = SCORE_MIN_PCT + Math.random() * (SCORE_MAX_PCT - SCORE_MIN_PCT);
-  if (direction > 0) {
-    const gap = SCORE_CEILING - currentScore;
-    return +(pct * gap).toFixed(2);          // always positive
-  } else {
-    const gap = currentScore - SCORE_BASE;
-    return -(pct * gap).toFixed(2);          // always negative
-  }
+  const pts = SCORE_MIN_PTS + Math.random() * (SCORE_MAX_PTS - SCORE_MIN_PTS);
+  return direction > 0 ? +pts.toFixed(2) : -pts.toFixed(2);
 }
 
 // Apply a vote to state.founderScore and persist.
@@ -2647,7 +2771,8 @@ function countActiveVotes() {
 // ---- ENGAGEMENT SCORE → PRICE MULTIPLIER ----
 // Linear: score 0 → 0.5×, score 1000 → 2.5×
 function scoreToMultiplier(score) {
-  return +(0.5 + (score / 1000) * 2).toFixed(2);
+  // score 100 = 1×, score 1000 = 10× (linear scale)
+  return +(score / 100).toFixed(2);
 }
 
 function itemArt(seed, rarity) {
@@ -2657,13 +2782,16 @@ function itemArt(seed, rarity) {
     for (let i = 0; i < seed.length; i++) h = ((h << 5) - h + seed.charCodeAt(i)) | 0;
     seed = Math.abs(h);
   }
-  const colors = {
+  const palettes = {
     common:    ['#8a7d68', '#5a4d38'],
     uncommon:  ['#5a7a3a', '#3a5a1a'],
     rare:      ['#4a7ab0', '#2a4a80'],
     epic:      ['#9a4abf', '#6a2a8f'],
-    legendary: ['#f0c878', '#a14426']
-  }[rarity];
+    legendary: ['#f0c878', '#a14426'],
+    standard:  ['#c9a24a', '#7a5a1a'],
+  };
+  // Fallback: derive a palette from the seed itself
+  const colors = palettes[rarity] || palettes['standard'];
   const shapes = [
     `<polygon points="50,5 60,40 95,50 60,60 50,95 40,60 5,50 40,40" fill="${colors[0]}" stroke="${colors[1]}" stroke-width="2"/>`,
     `<path d="M50 10 L80 30 L80 70 L50 90 L20 70 L20 30 Z" fill="${colors[0]}" stroke="${colors[1]}" stroke-width="2"/><circle cx="50" cy="50" r="12" fill="${colors[1]}"/>`,
@@ -2680,19 +2808,22 @@ function itemArt(seed, rarity) {
 }
 
 const seedItems = [
-  { name: "Whisperblade of the Marsh",   category: "weapon",    rarity: "rare",      desc: "Forged by a guild that has long since dissolved. Hums faintly near water.",                    basePrice: 280,  creator: "drifter.eth",        editions: 10 },
-  { name: "Cloak of the Cinder Watch",   category: "armor",     rarity: "epic",      desc: "Worn by sentinels of the burned chapter. Resists low-grade fire damage.",                      basePrice: 540,  creator: "ashenwarden",        editions: 8  },
-  { name: "Iron Arena Champion Pin",     category: "cosmetic",  rarity: "legendary", desc: "Awarded to wave 100 survivors. Glints when held aloft in town squares.",                       basePrice: 1200, creator: "fibtechnician",      editions: 5  },
-  { name: "Tinker's Lockpick Set",       category: "utility",   rarity: "common",    desc: "Three picks, one tension wrench, and a prayer. Mostly works.",                                  basePrice: 35,   creator: "smallhands",         editions: 25 },
-  { name: "Codex Fragment XII",          category: "lore",      rarity: "uncommon",  desc: "A page torn from the founding ledger. References a treasury never found.",                     basePrice: 90,   creator: "scribe.dao",         editions: 12 },
-  { name: "Bloodmoon Greataxe",          category: "weapon",    rarity: "epic",      desc: "Heavier than it should be. Lighter than it claims.",                                            basePrice: 620,  creator: "thane_g",            editions: 7  },
-  { name: "Helm of the Quiet Throne",    category: "armor",     rarity: "legendary", desc: "Said to silence the wearer's doubts. Side effect: silences everything else too.",               basePrice: 1450, creator: "kingless",           editions: 5  },
-  { name: "Snake Skin (Slither)",        category: "cosmetic",  rarity: "rare",      desc: "Iridescent scales from a top-10 Slither run. Purely cosmetic. Purely earned.",                 basePrice: 220,  creator: "0x..7afE",           editions: 15 },
-  { name: "Glow Vial — Moss Variant",   category: "utility",   rarity: "common",    desc: "Burns slowly. Lights about three rooms. Not for drinking.",                                     basePrice: 25,   creator: "alchemist0",         editions: 30 },
-  { name: "Map of Forgotten Burrows",   category: "lore",      rarity: "rare",      desc: "Hand-drawn. Edges burnt. Marks places that may no longer exist.",                               basePrice: 310,  creator: "the_cartographer",   editions: 8  },
-  { name: "Sigil of the Founder",        category: "cosmetic",  rarity: "legendary", desc: "Bestowed only by direct contribution to the ecosystem. Rare and watched.",                     basePrice: 2000, creator: "fibtechnician",      editions: 5  },
-  { name: "Throwing Knives (×6)",        category: "weapon",    rarity: "uncommon",  desc: "Balanced. Plain. Reliable. Six of them, not five.",                                             basePrice: 75,   creator: "shade_19",           editions: 20 }
+  // ── Existing core items ─────────────────────────────────────────────
+  { name: "Iron Arena Champion Pin",       desc: "Awarded to wave 100 survivors. Glints when held aloft in town squares.",                       basePrice: 1200, creator: "fibtechnician",      editions: 5  },
+  { name: "Whisperblade of the Marsh",     desc: "Forged by a guild that has long since dissolved. Hums faintly near water.",                    basePrice: 280,  creator: "drifter.eth",        editions: 10 },
+  { name: "Codex Fragment XII",            desc: "A page torn from the founding ledger. References a treasury never found.",                     basePrice: 90,   creator: "scribe.dao",         editions: 12 },
+  // ── Community listings ──────────────────────────────────────────────
+  { name: "Ashen Pauldrons",               desc: "Salvaged from the burned chapter. Scorch marks considered cosmetic.",                          basePrice: 420,  creator: "ashenwarden",        editions: 8  },
+  { name: "Obsidian Hilt",                 desc: "No blade. Just the hilt. The rest of the story is yours to forge.",                           basePrice: 155,  creator: "thane_g",            editions: 15 },
+  { name: "Gilded Signet Ring",            desc: "Marked with a crest no one recognizes. Worth collecting regardless.",                          basePrice: 340,  creator: "kingless",           editions: 7  },
+  { name: "Vial of Blight Moss",           desc: "Emits a faint green haze. Handle without sneezing.",                                          basePrice: 45,   creator: "alchemist0",         editions: 30 },
+  { name: "Expedition Journal — Vol. 3",   desc: "Handwritten notes from a cartographer who never came back. Vol. 1 and 2 are missing.",         basePrice: 175,  creator: "the_cartographer",   editions: 9  },
+  { name: "Shadow Wraps",                  desc: "Light cloth bindings favored by scouts. Disappear in dim light.",                              basePrice: 210,  creator: "shade_19",           editions: 18 },
+  { name: "Drifter's Compass",             desc: "Points north. Unless it doesn't. Still useful in most biomes.",                               basePrice: 130,  creator: "drifter.eth",        editions: 20 },
+  { name: "Guild Seal — Dissolved",        desc: "Once opened doors across six provinces. Now opens conversations.",                             basePrice: 680,  creator: "smallhands",         editions: 6  },
+  { name: "Thornwood Staff Fragment",      desc: "The lower third of something that was once powerful. Splinters on impact.",                    basePrice: 95,   creator: "kingless",           editions: 14 },
 ];
+
 
 state.items = seedItems.map((item, i) => ({
   id: 'item_' + i,
@@ -2707,99 +2838,76 @@ state.mmInventory = [];              // items MM has bought and is holding for r
 
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => Math.round(n).toLocaleString();
-const rarityFee = (r) => ({ common: 0, uncommon: 0.05, rare: 0.10, epic: 0.20, legendary: 0.35 }[r]);
-const calcFinalPrice = (item, mult) => Math.min(item.basePrice * mult * (1 + rarityFee(item.rarity)), MAX_FINAL_PRICE);
+const rarityFee = () => 0;  // rarity removed — no fee multiplier
+const calcFinalPrice = (item, mult) => Math.min(item.basePrice * mult * (1 + rarityFee()), MAX_FINAL_PRICE);
 
 // ---- ELIGIBILITY ----
 function votesThisWeek() {
   return state.weeklyVotes[currentWeekKey()] || 0;
 }
-function votesRemainingThisWeek() {
+function votesAvailable() {
   return Math.max(0, WEEKLY_VOTE_CAP - votesThisWeek());
 }
 function lifetimeVotesCast() {
   return Object.values(state.weeklyVotes).reduce((a, b) => a + b, 0);
 }
-function lifetimeVotesRemaining() {
-  return Math.max(0, LIFETIME_VOTE_CAP - lifetimeVotesCast());
-}
-function votesAvailable() {
-  return isBootstrapPhase() ? votesRemainingThisWeek() : lifetimeVotesRemaining();
-}
-function holdDurationMet() {
-  return (Date.now() - state.heldSince) >= HOLD_DURATION_MS;
-}
-function holdTimeRemaining() {
-  return Math.max(0, HOLD_DURATION_MS - (Date.now() - state.heldSince));
+// Check if user has already voted on this founder this week
+function alreadyVotedThisWeek() {
+  const wk = currentWeekKey();
+  return state.ledger.some(v =>
+    v.voter === state.myWallet &&
+    currentWeekKey(new Date(v.castAt)) === wk
+  );
 }
 function isEligibleToVote() {
-  return state.balance >= ELIGIBILITY_MIN && votesAvailable() > 0 && holdDurationMet();
+  return state.balance >= ELIGIBILITY_MIN &&
+         votesAvailable() > 0 &&
+         !alreadyVotedThisWeek();
 }
 
 function updateEligibilityUI() {
-  const bootstrap = isBootstrapPhase();
-  const available = votesAvailable();
-  const balOk = state.balance >= ELIGIBILITY_MIN;
-  const votesOk = available > 0;
-  const holdOk = holdDurationMet();
-  const eligible = balOk && votesOk && holdOk;
-  const resetIn = fmtCountdown(msUntilWeekReset());
-
-  const chip = $('votesLeft');
+  const balOk      = state.balance >= ELIGIBILITY_MIN;
+  const votesLeft  = votesAvailable();
+  const alreadyVoted = alreadyVotedThisWeek();
+  const eligible   = balOk && votesLeft > 0 && !alreadyVoted;
+  const chip       = $('votesLeft');
   if (chip) {
-    chip.textContent = bootstrap ? `${available}/${WEEKLY_VOTE_CAP}` : `${available}/${LIFETIME_VOTE_CAP}`;
-    chip.className = 'oracle-votes-chip' + (votesOk ? '' : ' spent');
+    chip.textContent = eligible
+      ? `${votesLeft}/${WEEKLY_VOTE_CAP} this week`
+      : alreadyVoted ? 'voted this week' : votesLeft === 0 ? '0 left' : 'insufficient $PvE';
+    chip.className = 'oracle-votes-chip ' + (eligible ? 'eligible' : 'spent');
   }
-
-  $('upBtn').disabled = !eligible;
+  $('upBtn').disabled   = !eligible;
   $('downBtn').disabled = !eligible;
-
   const lock = $('voteLockMsg');
   if (lock) {
-    if (eligible) {
-      lock.className = 'vote-locked eligible';
-      lock.textContent = bootstrap
-        ? `✓ Eligible · ${available} vote${available===1?'':'s'} left this week`
-        : `✓ Eligible · ${available} lifetime vote${available===1?'':'s'} remaining`;
-    } else if (!holdOk) {
-      lock.className = 'vote-locked';
-      lock.textContent = `✗ Hold ≥10,002 for ${fmtCountdown(holdTimeRemaining())} more to vote`;
-    } else if (!balOk) {
-      lock.className = 'vote-locked';
-      lock.textContent = `✗ Need ${(ELIGIBILITY_MIN-state.balance).toLocaleString()} more $PvE`;
-    } else {
-      lock.className = 'vote-locked';
-      lock.textContent = bootstrap ? `✗ 3/3 used · resets in ${resetIn}` : `✗ All 3 lifetime votes used`;
-    }
+    lock.className = 'vote-locked' + (eligible ? ' eligible' : '');
+    if (!balOk)        lock.textContent = `✗ Hold ≥${ELIGIBILITY_MIN.toLocaleString()} $PvE to vote`;
+    else if (alreadyVoted) lock.textContent = `✗ Already voted this week · resets ${fmtCountdown(msUntilWeekReset())}`;
+    else if (!votesLeft)   lock.textContent = `✗ 0 of ${WEEKLY_VOTE_CAP} votes left · resets ${fmtCountdown(msUntilWeekReset())}`;
+    else               lock.textContent = `✓ Eligible · ${votesLeft}/${WEEKLY_VOTE_CAP} votes left this week`;
   }
+  if ($('phaseLabel'))  $('phaseLabel').textContent  = 'Open Voting';
+  if ($('phaseDetail')) $('phaseDetail').textContent = `${votesLeft}/${WEEKLY_VOTE_CAP} votes remaining · resets Monday UTC`;
 }
-
-let pendingVote = null;
 
 function openVoteModal(direction) {
   pendingVote = direction;
-  const bootstrap = isBootstrapPhase();
-  const available = votesAvailable();
-  const balOk = state.balance >= ELIGIBILITY_MIN;
-  const votesOk = available > 0;
-  const holdOk = holdDurationMet();
+  const available    = votesAvailable();
+  const balOk        = state.balance >= ELIGIBILITY_MIN;
+  const alreadyVoted = alreadyVotedThisWeek();
+  const eligible     = balOk && available > 0 && !alreadyVoted;
 
   $('voteTitle').textContent = direction === 'up' ? 'Cast Upvote' : 'Cast Downvote';
-  $('voteDir').textContent = direction === 'up' ? '▲ Upvote (+score)' : '▼ Downvote (−score)';
+  $('voteDir').textContent   = direction === 'up' ? '▲ Upvote (+score)' : '▼ Downvote (−score)';
 
   // Show expected impact range for this vote direction
-  const curScore = state.founderScore;
-  const gap = direction === 'up' ? (SCORE_CEILING - curScore) : (curScore - SCORE_BASE);
-  const minImpact = (SCORE_MIN_PCT * gap).toFixed(2);
-  const maxImpact = (SCORE_MAX_PCT * gap).toFixed(2);
-  const sign = direction === 'up' ? '+' : '−';
-  $('voteImpact').textContent = `${sign}${minImpact} to ${sign}${maxImpact} pts (random 0.5–2% of gap)`;
-
-  if (bootstrap) {
-    $('votesAfter').textContent = `${Math.max(0, available - 1)} / ${WEEKLY_VOTE_CAP} this week · ${fmtCountdown(msUntilWeekReset())} to reset`;
-  } else {
-    $('votesAfter').textContent = `${Math.max(0, available - 1)} / ${LIFETIME_VOTE_CAP} lifetime · permanent`;
-  }
+  const curScore  = state.founderScore;
+  const sign      = direction === 'up' ? '+' : '−';
+  $('voteImpact').textContent = `${sign}${SCORE_MIN_PTS.toFixed(1)}–${SCORE_MAX_PTS.toFixed(1)} pts (random flat)`;
+  $('votesAfter').textContent = available > 0 && !alreadyVoted
+    ? `${available - 1}/${WEEKLY_VOTE_CAP} left this week · resets ${fmtCountdown(msUntilWeekReset())}`
+    : alreadyVoted ? 'Already voted this week' : '0 remaining';
 
   if ($('distToMax')) {
     const dist = (SCORE_CEILING - curScore).toFixed(2);
@@ -2807,31 +2915,31 @@ function openVoteModal(direction) {
   }
 
   const check = $('eligibilityCheck');
-  const weekLabel = bootstrap
-    ? `Week ${currentBootstrapWeek()} of ${BOOTSTRAP_WEEKS} — ${available} of ${WEEKLY_VOTE_CAP} votes left this week`
-    : `Decay phase — ${available} of ${LIFETIME_VOTE_CAP} lifetime votes remaining`;
   check.innerHTML = `
     <div class="check-row ${balOk ? 'pass' : 'fail'}">
       <span><span class="icon">${balOk ? '✓' : '✗'}</span><span class="check-label">Wallet holds ≥10,002 $PvE</span></span>
       <span class="check-val">${state.balance.toLocaleString()} $PvE</span>
     </div>
-    <div class="check-row ${holdOk ? 'pass' : 'fail'}">
-      <span><span class="icon">${holdOk ? '✓' : '✗'}</span><span class="check-label">Held ≥10,002 for 48h</span></span>
-      <span class="check-val">${holdOk ? 'met' : fmtCountdown(holdTimeRemaining()) + ' remaining'}</span>
+    <div class="check-row ${available > 0 ? 'pass' : 'fail'}">
+      <span><span class="icon">${available > 0 ? '✓' : '✗'}</span><span class="check-label">Weekly votes remaining</span></span>
+      <span class="check-val">${available}/${WEEKLY_VOTE_CAP} · resets ${fmtCountdown(msUntilWeekReset())}</span>
     </div>
-    <div class="check-row ${votesOk ? 'pass' : 'fail'}">
-      <span><span class="icon">${votesOk ? '✓' : '✗'}</span><span class="check-label">${bootstrap ? 'Weekly' : 'Lifetime'} votes available</span></span>
-      <span class="check-val">${weekLabel}</span>
+    <div class="check-row ${!alreadyVoted ? 'pass' : 'fail'}">
+      <span><span class="icon">${!alreadyVoted ? '✓' : '✗'}</span><span class="check-label">Not yet voted this week</span></span>
+      <span class="check-val">${alreadyVoted ? 'Already cast this week' : 'Clear to vote'}</span>
     </div>
   `;
 
-  $('confirmVote').disabled = !(balOk && votesOk && holdOk);
+  $('confirmVote').disabled = !eligible;
   $('voteOverlay').classList.add('show');
 }
 
 function submitVote() {
   if (!isEligibleToVote() || !pendingVote) {
-    toast('Not eligible to vote', 'error');
+    const reason = !state.balance >= ELIGIBILITY_MIN ? 'Insufficient $PvE'
+                 : alreadyVotedThisWeek() ? 'Already voted this week'
+                 : 'No votes remaining this week';
+    toast(reason, 'error');
     return;
   }
 
@@ -2839,10 +2947,9 @@ function submitVote() {
   // PRODUCTION: replace applyVoteToScore with:
   //   const tx = await votingRegistry.castVote(founderId, pendingVote === 'up');
   //   await tx.wait();
-  // The contract emits a ScoreMoved(newScore) event; read that to update state.founderScore.
   // -----------------------------------
 
-  // Asymptotic score move: 0.5%–2% of remaining gap to 1000
+  // Flat random 1.5–3 pt score move
   const delta = applyVoteToScore(pendingVote === 'up' ? 1 : -1);
   const scoreAfter = state.founderScore;
   const distToMax  = (SCORE_CEILING - scoreAfter).toFixed(2);
@@ -2855,21 +2962,16 @@ function submitVote() {
     castAt: Date.now(),
     droppedAt: null
   });
+
+  // Track weekly vote count and per-founder dedup
   const wk = currentWeekKey();
   state.weeklyVotes[wk] = (state.weeklyVotes[wk] || 0) + 1;
 
   closeOverlay('voteOverlay');
-  const remaining  = votesAvailable();
-  const bootstrap  = isBootstrapPhase();
-  const sign       = delta >= 0 ? '+' : '';
-  const deltaStr   = `${sign}${Math.abs(delta).toFixed(2)}`;
-
-  toast(
-    bootstrap
-      ? `Score ${deltaStr} → ${scoreAfter.toFixed(2)} · ${distToMax} to perfect · ${remaining}/${WEEKLY_VOTE_CAP} left this week`
-      : `Score ${deltaStr} → ${scoreAfter.toFixed(2)} · ${distToMax} to perfect · ${remaining}/${LIFETIME_VOTE_CAP} lifetime left`,
-    'success'
-  );
+  const sign     = delta >= 0 ? '+' : '';
+  const deltaStr = `${sign}${Math.abs(delta).toFixed(2)}`;
+  const left     = votesAvailable();
+  toast(`Score ${deltaStr} → ${scoreAfter.toFixed(2)} · ${distToMax} pts to perfect · ${left}/${WEEKLY_VOTE_CAP} left`, 'success');
   pendingVote = null;
   render();
 }
@@ -2928,6 +3030,29 @@ function daysAgo(ts) {
   if (d === 0) return 'today';
   if (d === 1) return '1d';
   return `${d}d`;
+}
+
+function setSort(order) {
+  state.sortOrder = order;
+  document.querySelectorAll('.sort-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.sort === order);
+  });
+  render();
+}
+
+function sortItems(items) {
+  const mult = scoreToMultiplier(computeScore());
+  return items.slice().sort((a, b) => {
+    const volA = a.editionsSold ? a.editionsSold * calcFinalPrice(a, mult) : 0;
+    const volB = b.editionsSold ? b.editionsSold * calcFinalPrice(b, mult) : 0;
+    // Score factor: items with higher rarity floors score better
+    const scoreA = calcFinalPrice(a, mult);
+    const scoreB = calcFinalPrice(b, mult);
+    if (state.sortOrder === 'score')    return scoreB - scoreA;
+    if (state.sortOrder === 'volume')   return volB - volA;
+    if (state.sortOrder === 'combined') return (scoreB * 0.6 + volB * 0.4) - (scoreA * 0.6 + volA * 0.4);
+    return 0;
+  });
 }
 
 function render() {
@@ -2989,18 +3114,12 @@ function render() {
   updateEligibilityUI();
 
   // Phase — compact oracle strip
-  const bootstrap = isBootstrapPhase();
-  const phaseLabel = $('phaseLabel');
+  // No bootstrap/decay phase — open voting always
+  const phaseLabel  = $('phaseLabel');
   const phaseDetail = $('phaseDetail');
   if (phaseLabel && phaseDetail) {
-    if (bootstrap) {
-      const wk = currentBootstrapWeek();
-      phaseLabel.textContent = `WK ${wk}/${BOOTSTRAP_WEEKS} BOOTSTRAP`;
-      phaseDetail.textContent = `Decay in ${fmtCountdown(msUntilDecayPhase())}`;
-    } else {
-      phaseLabel.textContent = 'DECAY PHASE';
-      phaseDetail.textContent = '0–30d×1.0 · 30–90d×0.75\n90–180d×0.5 · 180d+×0.25';
-    }
+    phaseLabel.textContent  = 'OPEN VOTING';
+    phaseDetail.textContent = 'Hold ≥10,002 $PvE · 3 votes/week · resets Monday UTC';
   }
 
   // Listing cap indicator
@@ -3014,9 +3133,10 @@ function render() {
       : `+ List an Item (${myActive}/${FOUNDER_LISTING_CAP})`;
   }
 
-  const visible = state.filter === 'all'
+  const rawVisible = state.filter === 'all'
     ? state.items
     : state.items.filter(i => i.category === state.filter);
+  const visible = sortItems(rawVisible);
 
   const allFinal = state.items.filter(i => !i.sold).map(i => calcFinalPrice(i, mult));
   $('mTotal').textContent = state.items.filter(i => !i.sold).length;
@@ -3050,7 +3170,6 @@ function render() {
         ${isMusic ? renderMusicCard(item) : `
         <div class="item-art">
           ${renderArt(item)}
-          <div class="item-rarity r-${item.rarity}">${item.rarity}</div>
           <div class="item-creator"><span class="at">@</span>${item.creator}</div>
           ${item.ipfsCid ? `<div style="position:absolute;top:10px;left:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;padding:3px 6px;background:rgba(0,0,0,0.75);border:1px solid var(--moss);color:var(--moss);">⬡ IPFS</div>` : ''}
           ${item.tokenId ? `<div style="position:absolute;bottom:10px;left:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;padding:3px 6px;background:rgba(0,0,0,0.75);border:1px solid var(--gold);color:var(--gold);">⬡ ${item.tokenId}</div>` : ''}
@@ -3058,11 +3177,11 @@ function render() {
         </div>`}
         <div class="item-body">
           <div class="item-name">${item.name}</div>
-          <div class="item-tag">${item.category} · ${(item.editions || 1) - (item.editionsSold || 0)} / ${item.editions || 1} left${item.isMMlisting ? ' · <span style="color:var(--moss);">⬡ MM</span>' : ''}</div>
+          <div class="item-tag">${(item.editions || 1) - (item.editionsSold || 0)} / ${item.editions || 1} left${item.isMMlisting ? ' · <span style="color:var(--moss);">⬡ MM</span>' : ''}</div>
           <div class="item-desc">${item.desc}</div>
           <div class="item-price">
             <div class="price-stack">
-              <span class="price-base">Oracle · ${item.rarity}</span>
+              <span class="price-base">Oracle · </span>
               <span class="price-final">${fmt(final)}${final >= MAX_FINAL_PRICE ? '<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--gold);margin-left:4px;vertical-align:middle;">MAX</span>' : ''}</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">
@@ -3135,7 +3254,7 @@ function render() {
   }).join('');
 
   if (!visible.length) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-dim);font-style:italic;">No goods of this kind in the bazaar today.</div>`;
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-dim);font-style:italic;">No goods of this kind in the shop today.</div>`;
   }
 
   renderTicker();
@@ -3165,7 +3284,7 @@ function openBuyModal(itemId) {
   pendingBuy = item;
 
   const mult = scoreToMultiplier(computeScore());
-  const adjustedBase = item.basePrice * mult * (1 + rarityFee(item.rarity));
+  const adjustedBase = item.basePrice * mult * (1 + rarityFee());
   const rpt = state.reports[item.id] || { count: 0 };
   const editionsSold = item.editionsSold || 0;
   const totalEd = item.editions || 1;
@@ -3173,7 +3292,7 @@ function openBuyModal(itemId) {
 
   $('buyTitle').textContent = item.name;
   $('buyDesc').textContent = item.desc;
-  $('buyBase').textContent = fmt(item.basePrice * (1 + rarityFee(item.rarity))) + ' $PvE';
+  $('buyBase').textContent = fmt(item.basePrice * (1 + rarityFee())) + ' $PvE';
   $('buyMult').textContent = '× ' + mult.toFixed(2);
   $('buyFee').textContent = fmt(adjustedBase * MARKETPLACE_FEE) + ' $PvE';
   $('buyTotal').textContent = fmt(adjustedBase * (1 + MARKETPLACE_FEE)) + ' $PvE';
@@ -3608,7 +3727,7 @@ function updateListPreview() {
   const rarity = ($('newRarity') && $('newRarity').value) || 'common';
   const base = oracleBasePrice(rarity);
   const mult = scoreToMultiplier(computeScore());
-  const raw = base * mult * (1 + rarityFee(rarity));
+  const raw = base * mult * (1 + rarityFee());
   const final = Math.min(raw, MAX_FINAL_PRICE);
   const el = $('newCalc');
   if (el) {
@@ -3616,7 +3735,7 @@ function updateListPreview() {
     el.style.color = raw > MAX_FINAL_PRICE ? 'var(--rust)' : 'var(--gold-bright)';
   }
   if ($('curMult')) $('curMult').textContent = mult.toFixed(2);
-  if ($('curRarityFeeLabel')) $('curRarityFeeLabel').textContent = '+' + (rarityFee(rarity)*100).toFixed(0) + '%';
+  if ($('curRarityFeeLabel')) $('curRarityFeeLabel').textContent = '+' + (rarityFee()*100).toFixed(0) + '%';
 }
 
 document.addEventListener('change', (e) => {
@@ -3707,7 +3826,7 @@ $('filters').addEventListener('click', (e) => {
   if (!btn) return;
   document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
   btn.classList.add('active');
-  state.filter = btn.dataset.filter;
+  state.filter = 'all';  // categories removed
   render();
 });
 
@@ -3761,7 +3880,7 @@ function openCollectionItem(invId) {
       ${reportWarning}
       <div style="padding:16px 0;">
         <div style="font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold-bright);margin-bottom:4px;">${item.name}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:12px;" class="r-${item.rarity}">${item.rarity} · ${item.category}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:12px;" class="r-">${item.category}</div>
         <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-dim);font-size:14px;line-height:1.5;margin-bottom:16px;">${item.desc}</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);margin-bottom:16px;">
           ${[
@@ -3834,7 +3953,7 @@ function renderDrawer() {
       body.innerHTML = `<div class="inv-empty">
         <span class="icon">⚔</span>
         Your inventory is empty.<br>
-        Buy items from the bazaar — they'll appear here, ready to use, hold, or sell.
+        Buy items from the shop — they'll appear here, ready to use, hold, or sell.
       </div>`;
       return;
     }
@@ -3842,15 +3961,15 @@ function renderDrawer() {
     body.innerHTML = state.inventory.map(item => {
       // Find the original market item to price against
       const marketItem = state.items.find(i => i.name === item.name && !i.isMMlisting);
-      const baseForMM = marketItem ? marketItem.basePrice : (item.paidAmount / (mult * (1 + (rarityFee(item.rarity) || 0)) * (1 + MARKETPLACE_FEE)));
-      const currentFinalPrice = baseForMM * mult * (1 + (rarityFee(item.rarity) || 0));
+      const baseForMM = marketItem ? marketItem.basePrice : (item.paidAmount / (mult * (1 + (rarityFee() || 0)) * (1 + MARKETPLACE_FEE)));
+      const currentFinalPrice = baseForMM * mult * (1 + (rarityFee() || 0));
       const instantSellPrice = Math.round(currentFinalPrice * MM_BID_PCT);
       return `
         <div class="inv-item">
           <div class="inv-art">${renderArt(item)}</div>
           <div class="inv-info">
             <div class="inv-name">${item.name}</div>
-            <div class="inv-meta">${item.rarity} · ${item.category}</div>
+            <div class="inv-meta">${item.category}</div>
             <div class="inv-paid">Paid <span class="v">${fmt(item.paidAmount)}</span> $PvE</div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--moss);margin-top:3px;">
               ⬡ MM bid: <b>${fmt(instantSellPrice)} $PvE</b>
@@ -3883,7 +4002,7 @@ function renderDrawer() {
           <div class="inv-art">${renderArt(item)}</div>
           <div class="inv-info">
             <div class="inv-name">${item.name}</div>
-            <div class="inv-meta">${item.rarity} · ${item.category}</div>
+            <div class="inv-meta">${item.category}</div>
             <div class="inv-paid">Listed @ <span class="v">${fmt(final)}</span> $PvE</div>
             ${item.tokenId ? `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--moss);margin-top:2px;">⬡ NFT ${item.tokenId}</div>` : ''}
             <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);margin-top:2px;">⬡ ${item.depositLocked || LISTING_DEPOSIT} $PvE locked</div>
@@ -3903,7 +4022,7 @@ function renderDrawer() {
     if (!allOwned.length && !listedItems.length) {
       body.innerHTML = `<div class="inv-empty">
         <span class="icon">⚔</span>
-        Your collection is empty.<br>Buy items from the bazaar to start building.
+        Your collection is empty.<br>Buy items from the shop to start building.
       </div>`;
       return;
     }
@@ -3941,7 +4060,7 @@ function renderDrawer() {
               </div>
               <div style="padding:8px;">
                 <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item.name}</div>
-                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-dim);margin-top:2px;" class="r-${item.rarity}">${item.rarity}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-dim);margin-top:2px;" class="r-"></div>
                 <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);margin-top:4px;">Ed. ${item.editionNumber || 1}/${item.totalEditions || 1}</div>
               </div>
             </div>`;
@@ -4011,7 +4130,7 @@ function renderDrawer() {
             <div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);">${item.name}</div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-dim);margin-top:1px;">
-                ${item.rarity} · Ed.${item.editionNumber||1}/${item.totalEditions||1} · basis ${fmt(item.paidAmount)} → now ${fmt(currentVal)}
+                Ed.${item.editionNumber||1}/${item.totalEditions||1} · basis ${fmt(item.paidAmount)} → now ${fmt(currentVal)}
               </div>
             </div>
             <div style="text-align:right;">
@@ -4033,7 +4152,7 @@ function renderDrawer() {
             <div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);">${entry.itemName}</div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-dim);margin-top:1px;">
-                ${entry.rarity}${entry.edition ? ` · Ed.${entry.edition}` : ''} · via ${entry.via} · ${timeAgo(entry.ts)}
+                ${entry.edition ? `Ed.${entry.edition} · ` : ''}via ${entry.via} · ${timeAgo(entry.ts)}
               </div>
             </div>
             <div style="text-align:right;">
@@ -4103,7 +4222,7 @@ function instantSell(invId, price) {
   // MM takes ownership — will relist at 100%
   const mult = scoreToMultiplier(computeScore());
   const marketItem = state.items.find(i => i.name === item.name && !i.isMMlisting);
-  const relistBase = marketItem ? marketItem.basePrice : Math.round(price / (mult * (1 + rarityFee(item.rarity)) * MM_BID_PCT));
+  const relistBase = marketItem ? marketItem.basePrice : Math.round(price / (mult * (1 + rarityFee()) * MM_BID_PCT));
 
   state.items.push({
     id: 'item_mm_' + Date.now(),
@@ -4164,7 +4283,7 @@ function openSellModal(invId) {
     <div class="art">${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">` : itemArt(item.artSeed || item.name, item.rarity)}</div>
     <div class="info">
       <div class="nm">${item.name}</div>
-      ${item.rarity} · ${item.category}<br>
+      ${item.category}<br>
       Originally bought for ${fmt(item.paidAmount)} $PvE
     </div>
   `;
@@ -4178,7 +4297,7 @@ function updateSellPreview() {
   if (!pendingSell) return;
   const mult = scoreToMultiplier(computeScore());
   const base = oracleBasePrice(pendingSell.rarity);
-  const final = Math.min(base * mult * (1 + rarityFee(pendingSell.rarity)), MAX_FINAL_PRICE);
+  const final = Math.min(base * mult * (1 + rarityFee()), MAX_FINAL_PRICE);
   if ($('sellMult')) $('sellMult').textContent = mult.toFixed(2);
   const calcEl = $('sellCalc');
   if (calcEl) { calcEl.textContent = fmt(final) + ' $PvE'; calcEl.style.color = 'var(--gold-bright)'; }
@@ -4359,7 +4478,7 @@ function goToSlide(n) {
 }
 function updateHeroStats() {
   try {
-    var sc = computeScore ? computeScore() : 800;
+    var sc = computeScore ? computeScore() : 100;
     var m  = scoreToMultiplier ? scoreToMultiplier(sc) : 2.16;
     var li = state && state.items ? state.items.filter(function(i){return !i.sold;}).length : 0;
     if (document.getElementById('heroListings')) document.getElementById('heroListings').textContent = li;
@@ -4376,6 +4495,270 @@ if (_hs) {
 }
 startHeroAuto();
 
+
+// ══════════════════════════════════════════════════════════════════════
+// MATRIX ENTRY SCREEN
+// ══════════════════════════════════════════════════════════════════════
+(function() {
+  var canvas = document.getElementById('matrixCanvas');
+  var ctx    = canvas.getContext('2d');
+  var W, H, cols, drops;
+
+  // Characters: katakana + latin + symbols
+  var chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF⚔◈⬡▲△◆◇⚙';
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    cols  = Math.floor(W / 18);
+    drops = Array(cols).fill(1);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var hue = 0;
+  function drawMatrix() {
+    // Subtle fade trail
+    ctx.fillStyle = 'rgba(0,0,0,0.055)';
+    ctx.fillRect(0, 0, W, H);
+    hue = (hue + 0.3) % 360;
+
+    for (var i = 0; i < drops.length; i++) {
+      var ch = chars[Math.floor(Math.random() * chars.length)];
+      var x  = i * 18;
+      var y  = drops[i] * 18;
+
+      // Leading character — bright gold/white
+      if (Math.random() > 0.95) {
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = '#f0c878';
+      } else {
+        // Gradient from gold to rust to green
+        var t = (i / cols);
+        if (t < 0.33)      ctx.fillStyle = 'rgba(201,162,74,0.85)';
+        else if (t < 0.66) ctx.fillStyle = 'rgba(161,68,38,0.75)';
+        else               ctx.fillStyle = 'rgba(90,122,58,0.7)';
+        ctx.shadowBlur = 0;
+      }
+
+      ctx.font = 'bold 14px "JetBrains Mono", monospace';
+      ctx.fillText(ch, x, y);
+      ctx.shadowBlur = 0;
+
+      if (y > H && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  var matrixTimer = setInterval(drawMatrix, 40);
+
+  window.enterBazaar = function() {
+    var screen = document.getElementById('entryScreen');
+    screen.classList.add('entry-exit');
+    clearInterval(matrixTimer);
+    setTimeout(function() {
+      screen.style.display = 'none';
+      document.body.style.overflow = '';
+      startParticles();
+      initScrollReveal();
+    }, 1200);
+  };
+
+  // Prevent scroll while entry screen is shown
+  document.body.style.overflow = 'hidden';
+
+  // Allow ENTER key to proceed
+  document.addEventListener('keydown', function(e) {
+    if ((e.key === 'Enter' || e.key === ' ') && document.getElementById('entryScreen').style.display !== 'none') {
+      window.enterBazaar();
+    }
+  });
+})();
+
+// ══════════════════════════════════════════════════════════════════════
+// BACKGROUND PARTICLE SYSTEM
+// ══════════════════════════════════════════════════════════════════════
+function startParticles() {
+  var canvas = document.getElementById('particleCanvas');
+  var ctx    = canvas.getContext('2d');
+  var particles = [];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = document.body.scrollHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Seed particles
+  var count = Math.min(80, Math.floor(window.innerWidth / 20));
+  for (var i = 0; i < count; i++) {
+    particles.push({
+      x:  Math.random() * canvas.width,
+      y:  Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r:  Math.random() * 1.5 + 0.5,
+      o:  Math.random() * 0.4 + 0.1,
+      // color: gold or rust
+      c:  Math.random() > 0.6 ? '201,162,74' : Math.random() > 0.5 ? '161,68,38' : '90,122,58'
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var W = canvas.width, H = canvas.height;
+
+    particles.forEach(function(p) {
+      // Drift
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+
+      // Draw
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + p.c + ',' + p.o + ')';
+      ctx.fill();
+    });
+
+    // Draw connection lines between nearby particles
+    for (var i = 0; i < particles.length; i++) {
+      for (var j = i + 1; j < particles.length; j++) {
+        var dx = particles[i].x - particles[j].x;
+        var dy = particles[i].y - particles[j].y;
+        var d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(201,162,74,' + (0.06 * (1 - d/120)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// SCROLL REVEAL
+// ══════════════════════════════════════════════════════════════════════
+function initScrollReveal() {
+  var revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-stagger');
+
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  revealEls.forEach(function(el) { obs.observe(el); });
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// CURSOR TRAIL
+// ══════════════════════════════════════════════════════════════════════
+(function() {
+  var trails = [];
+  var COUNT  = 8;
+  for (var i = 0; i < COUNT; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'cursor-trail';
+    dot.style.opacity = (1 - i / COUNT) * 0.7;
+    dot.style.width   = (6 - i * 0.5) + 'px';
+    dot.style.height  = (6 - i * 0.5) + 'px';
+    dot.style.transitionDelay = (i * 25) + 'ms';
+    document.body.appendChild(dot);
+    trails.push({ el: dot, x: -100, y: -100 });
+  }
+
+  var mouseX = -100, mouseY = -100;
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX; mouseY = e.clientY;
+  });
+
+  function animTrail() {
+    var lx = mouseX, ly = mouseY;
+    trails.forEach(function(t, i) {
+      t.x += (lx - t.x) * (0.25 - i * 0.02);
+      t.y += (ly - t.y) * (0.25 - i * 0.02);
+      lx = t.x; ly = t.y;
+      t.el.style.left = t.x + 'px';
+      t.el.style.top  = t.y + 'px';
+    });
+    requestAnimationFrame(animTrail);
+  }
+  animTrail();
+
+  // Hide on mobile
+  if ('ontouchstart' in window) {
+    trails.forEach(function(t) { t.el.style.display = 'none'; });
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════════════
+// PARALLAX ON SCROLL
+// ══════════════════════════════════════════════════════════════════════
+window.addEventListener('scroll', function() {
+  var sy = window.scrollY;
+
+  // Hero slides shift slightly on scroll (depth effect)
+  var heroImgs = document.querySelectorAll('.hero-img');
+  heroImgs.forEach(function(img) {
+    img.style.transform = 'scale(1.0) translateY(' + (sy * 0.08) + 'px)';
+  });
+
+  // Particle canvas stays fixed — already done via fixed positioning
+}, { passive: true });
+
+// ══════════════════════════════════════════════════════════════════════
+// ITEM CARD TILT ON HOVER
+// ══════════════════════════════════════════════════════════════════════
+document.addEventListener('mouseover', function(e) {
+  var card = e.target.closest('.item');
+  if (!card) return;
+  card.addEventListener('mousemove', tiltCard);
+  card.addEventListener('mouseleave', untiltCard);
+});
+
+function tiltCard(e) {
+  var r   = this.getBoundingClientRect();
+  var cx  = r.left + r.width  / 2;
+  var cy  = r.top  + r.height / 2;
+  var dx  = (e.clientX - cx) / (r.width  / 2);
+  var dy  = (e.clientY - cy) / (r.height / 2);
+  this.style.transform = 'translateY(-4px) perspective(600px) rotateX(' + (-dy * 4) + 'deg) rotateY(' + (dx * 4) + 'deg)';
+}
+function untiltCard() {
+  this.style.transform = '';
+  this.removeEventListener('mousemove', tiltCard);
+  this.removeEventListener('mouseleave', untiltCard);
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// GRID SECTION DYNAMIC LABELS
+// Animate number counters when oracle panel comes into view
+// ══════════════════════════════════════════════════════════════════════
+function animateCounter(el, from, to, duration, suffix) {
+  var start = null;
+  function step(ts) {
+    if (!start) start = ts;
+    var prog  = Math.min((ts - start) / duration, 1);
+    var eased = 1 - Math.pow(1 - prog, 3);
+    el.textContent = Math.round(from + (to - from) * eased) + (suffix || '');
+    if (prog < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 // Load persisted score for current week (survives page reloads within same week)
 state.founderScore = loadPersistedScore();
 state.prevScore    = state.founderScore;
@@ -4388,17 +4771,6 @@ setInterval(() => updateEligibilityUI(), 60000);
 
 </script>
 
-<!-- Ambient audio player -->
-<audio id="bgAudio" loop preload="none"></audio>
-<div class="audio-ctrl" onclick="toggleAudio()" title="Toggle music">
-  <div class="audio-btn" id="audioBtnEl">
-    <div class="audio-wave">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <span id="audioLabel">♪ AFLOAT</span>
-  </div>
-  <div class="audio-track-name">afloat 3&nbsp;&nbsp;·&nbsp;&nbsp;PvE OST</div>
-</div>
 
 </body>
 </html>
