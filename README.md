@@ -1788,13 +1788,14 @@
   }
   .entry-logo {
     font-family: 'Cinzel', serif;
-    font-size: clamp(36px, 7vw, 80px);
+    font-size: clamp(28px, 6vw, 80px);
     font-weight: 900;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     color: #c9a24a;
     text-shadow: 0 0 40px rgba(201,162,74,0.8), 0 0 80px rgba(201,162,74,0.4);
     animation: logoPulse 3s ease-in-out infinite;
-    white-space: nowrap;
+    text-align: center;
+    line-height: 1.25;
   }
   @keyframes logoPulse {
     0%,100% { text-shadow: 0 0 40px rgba(201,162,74,0.8),0 0 80px rgba(201,162,74,0.4); }
@@ -1856,13 +1857,15 @@
   }
   .entry-glyph {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: rgba(201,162,74,0.35);
-    letter-spacing: 0.15em;
+    font-size: clamp(11px, 2.5vw, 14px);
+    font-weight: 700;
+    color: rgba(201,162,74,0.75);
+    letter-spacing: 0.12em;
     text-align: center;
-    max-width: 500px;
-    line-height: 2;
+    max-width: 360px;
+    line-height: 2.2;
     animation: entryFadeIn 3.5s ease forwards;
+    text-shadow: 0 0 12px rgba(201,162,74,0.3);
   }
   /* Entry exit animation */
   .entry-exit {
@@ -1986,15 +1989,16 @@
   <canvas id="matrixCanvas"></canvas>
   <div class="entry-content">
     <div class="entry-sub">Welcome to</div>
-    <div class="entry-logo">⚔ PvE SHOP & SPREE ⚔</div>
+    <div class="entry-logo">⚔ PvE SHOP<br>&amp; SPREE ⚔</div>
     <div class="entry-line"></div>
     <button class="enter-btn" id="enterBtn" onclick="enterBazaar()">
       <span class="enter-btn-ring"></span>
       ENTER THE SHOP
     </button>
     <div class="entry-glyph">
-      ERC-1155 · OPTIMISM · ORACLE-PRICED · LP MARKET MAKER<br>
-      COMMUNITY FORGED · ON-CHAIN FOREVER
+      ERC-1155 · OPTIMISM · ORACLE-PRICED<br>
+      LP MARKET MAKER · COMMUNITY FORGED<br>
+      ON-CHAIN FOREVER
     </div>
   </div>
 </div>
