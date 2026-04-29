@@ -3713,85 +3713,72 @@ function openListModal() {
   }
   $('newName').value = '';
   $('newDesc').value = '';
-  // Price is oracle-set, no user input needed
-  $('newCategory').value = 'weapon';
-  $('newRarity').value = 'common';
+  if ($('newCategory')) $('newCategory').value = 'item';
   if ($('newImgCid')) $('newImgCid').value = '';
   if ($('newEditions')) $('newEditions').value = MIN_EDITIONS;
   if ($('newCidBadge')) { $('newCidBadge').className = 'ipfs-badge'; $('newCidBadge').textContent = 'IPFS/AR'; }
   clearAudio('new');
-  // Hide audio section unless music is selected
   clearImage('new');
-  $('listModalCap').textContent = `${myActive} of ${FOUNDER_LISTING_CAP} slots used`;
+  if ($('listModalCap')) $('listModalCap').textContent = `${myActive} of ${FOUNDER_LISTING_CAP} slots used`;
   updateListPreview();
   $('listOverlay').classList.add('show');
 }
 
 function updateListPreview() {
-  const rarity = ($('newRarity') && $('newRarity').value) || 'common';
-  const base = oracleBasePrice(rarity);
   const mult = scoreToMultiplier(computeScore());
-  const raw = base * mult * (1 + rarityFee());
-  const final = Math.min(raw, MAX_FINAL_PRICE);
+  const base = 100;  // default base; actual price derived from item.basePrice at listing time
+  const final = Math.min(base * mult, MAX_FINAL_PRICE);
   const el = $('newCalc');
   if (el) {
-    el.textContent = fmt(final) + ' $PvE' + (raw > MAX_FINAL_PRICE ? ' ⚠ capped' : '');
-    el.style.color = raw > MAX_FINAL_PRICE ? 'var(--rust)' : 'var(--gold-bright)';
+    el.textContent = fmt(final) + ' $PvE' + (base * mult > MAX_FINAL_PRICE ? ' ⚠ capped' : '');
+    el.style.color = base * mult > MAX_FINAL_PRICE ? 'var(--rust)' : 'var(--gold-bright)';
   }
   if ($('curMult')) $('curMult').textContent = mult.toFixed(2);
-  if ($('curRarityFeeLabel')) $('curRarityFeeLabel').textContent = '+' + (rarityFee()*100).toFixed(0) + '%';
 }
 
-document.addEventListener('change', (e) => {
-  if (e.target.id === 'newRarity') updateListPreview();
-});
-
 function submitListing() {
-  const name = $('newName').value.trim();
-  const desc = $('newDesc').value.trim();
-  const rarity = $('newRarity').value;
-  const price = oracleBasePrice(rarity);   // Oracle sets price — rarity-floor × multiplier at sale
+  const name     = $('newName').value.trim();
+  const desc     = $('newDesc').value.trim();
   const editions = parseInt($('newEditions')?.value || MIN_EDITIONS);
+  const category = ($('newCategory') && $('newCategory').value) || 'item';
+
   if (!name || !desc) {
     toast('Fill all fields with valid values', 'error');
     return;
   }
-  // ---- MINIMUM EDITIONS ----
   if (isNaN(editions) || editions < MIN_EDITIONS) {
     toast(`Minimum ${MIN_EDITIONS} editions required per listing`, 'error');
     return;
   }
-  // ---- FOUNDER LISTING CAP ----
   const myActiveListing = state.items.filter(i => state.myListings.includes(i.id) && !i.sold).length;
   if (myActiveListing >= FOUNDER_LISTING_CAP) {
     toast(`Listing cap reached — max ${FOUNDER_LISTING_CAP} active listings. Unlist or sell one first.`, 'error');
     return;
   }
-  // ---- LISTING DEPOSIT ----
   if (state.balance < LISTING_DEPOSIT) {
     toast(`Insufficient balance — ${LISTING_DEPOSIT} $PvE deposit required to list.`, 'error');
     return;
   }
-  state.balance -= LISTING_DEPOSIT;
+
+  state.balance     -= LISTING_DEPOSIT;
   state.lockedDeposit += LISTING_DEPOSIT;
 
   const imageUrl = imageStaging.new || null;
-  const ipfsCid = ($('newImgCid') && $('newImgCid').value.trim()) || null;
+  const ipfsCid  = ($('newImgCid') && $('newImgCid').value.trim()) || null;
 
-  // ---- NFT MINT (stub) ----
-  // PRODUCTION: replace with ethers.js call:
-  //   const contract = new ethers.Contract(MARKETPLACE_ADDRESS, ABI, signer);
-  //   const tx = await contract.mintAndList(name, desc, ipfsCid || imageHash, price, editions, rarity);
-  //   newItem.tokenId = receipt.events[0].args.tokenId.toString();
+  // Derive a stable base price from the item name (80–400 range)
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = ((h << 5) - h + name.charCodeAt(i)) | 0;
+  const basePrice = 80 + (Math.abs(h) % 321);  // 80–400
+
   const mockTokenId = 'T-' + Math.floor(Math.random() * 9000 + 1000);
   const mockTxHash  = '0x' + [...Array(8)].map(() => Math.floor(Math.random()*16).toString(16)).join('') + '...';
 
   const newItem = {
     id: 'item_' + Date.now(),
-    name, desc,
-    category: $('newCategory').value,
-    rarity: $('newRarity').value,
-    basePrice: price,
+    name, desc, category,
+    rarity: 'standard',
+    basePrice,
     editions,
     editionsSold: 0,
     creator: state.myWallet,
@@ -3799,18 +3786,19 @@ function submitListing() {
     listedByMe: true,
     imageUrl,
     ipfsCid,
-    audioUrl: audioStaging.new?.dataUrl || null,
-    audioFileName: audioStaging.new?.fileName || null,
-    audioDuration: audioStaging.new?.duration || null,
-    tokenId: mockTokenId,
-    txHash: mockTxHash,
+    audioUrl:      audioStaging.new?.dataUrl   || null,
+    audioFileName: audioStaging.new?.fileName  || null,
+    audioDuration: audioStaging.new?.duration  || null,
+    tokenId:       mockTokenId,
+    txHash:        mockTxHash,
     depositLocked: LISTING_DEPOSIT
   };
+
   imageStaging.new = null;
   audioStaging.new = null;
   state.items.unshift(newItem);
   state.myListings.push(newItem.id);
-  logTx('list', name, price);
+  logTx('list', name, basePrice);
   closeOverlay('listOverlay');
   toast(`Listed · ${editions} editions · NFT ${mockTokenId} · ${LISTING_DEPOSIT} $PvE deposit locked`, 'success');
   render();
