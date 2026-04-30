@@ -1979,6 +1979,393 @@
   }
   .sort-btn:hover { border-color: var(--gold); color: var(--gold); }
   .sort-btn.active { background: var(--gold); border-color: var(--gold); color: var(--bg-0); font-weight: 700; }
+
+  /* ── THE EXCHANGE (Secondary Market) ───────────────────────────────── */
+  .exchange-section {
+    margin-top: 40px;
+    margin-bottom: 16px;
+  }
+  .exchange-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--line);
+    border-bottom: none;
+    padding: 14px 20px;
+    background: var(--bg-1);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .exchange-title {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.1em;
+  }
+  .exchange-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .exchange-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--moss);
+    letter-spacing: 0.1em;
+  }
+  .exchange-badge span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--moss);
+    box-shadow: 0 0 6px var(--moss);
+    animation: pulse 2s infinite;
+  }
+  .exchange-grid {
+    border: 1px solid var(--line);
+    background: var(--bg-1);
+  }
+  /* Exchange item rows (list view, not grid) */
+  .ex-item {
+    display: grid;
+    grid-template-columns: 52px 1fr auto auto auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.15s;
+  }
+  .ex-item:last-child { border-bottom: none; }
+  .ex-item:hover { background: var(--bg-2); }
+  .ex-art {
+    width: 52px; height: 52px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid var(--line);
+  }
+  .ex-art canvas, .ex-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ex-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .ex-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .ex-meta .frozen { color: var(--gold); }
+  .ex-meta .editions { color: var(--ink-dim); }
+  .ex-price-col {
+    text-align: right;
+    min-width: 90px;
+  }
+  .ex-ask {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold-bright);
+  }
+  .ex-ask-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--ink-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .ex-last-col {
+    text-align: right;
+    min-width: 80px;
+  }
+  .ex-last-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-dim);
+  }
+  .ex-change {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    margin-top: 2px;
+  }
+  .ex-change.up { color: var(--moss); }
+  .ex-change.down { color: var(--rust); }
+  .ex-change.flat { color: var(--ink-dim); }
+  .ex-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 90px;
+  }
+  .ex-btn {
+    padding: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .ex-btn:hover { background: var(--gold); color: var(--bg-0); }
+  .ex-btn.mm { border-color: var(--moss); color: var(--moss); }
+  .ex-btn.mm:hover { background: var(--moss); color: var(--bg-0); }
+  .ex-btn.relist { border-color: var(--ink-dim); color: var(--ink-dim); }
+  .ex-empty {
+    padding: 40px 20px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    border: 1px solid var(--line);
+  }
+  .ex-relist-row {
+    display: none;
+    grid-column: 1 / -1;
+    padding: 12px 16px;
+    background: var(--bg-2);
+    border-top: 1px dashed var(--line);
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .ex-relist-row.open { display: flex; }
+  .ex-relist-input {
+    flex: 1;
+    min-width: 120px;
+    padding: 8px 12px;
+    background: var(--bg-0);
+    border: 1px solid var(--gold);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .ex-relist-input:focus { outline: none; border-color: var(--gold-bright); }
+  @media (max-width: 600px) {
+    .ex-item { grid-template-columns: 40px 1fr auto; gap: 8px; padding: 10px 12px; }
+    .ex-last-col { display: none; }
+    .ex-actions { flex-direction: row; min-width: auto; }
+  }
+
+
+  /* ── SECONDARY MARKET / THE EXCHANGE ──────────────────────────────── */
+  .exchange-section {
+    margin-top: 40px;
+    margin-bottom: 32px;
+  }
+  .exchange-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .exchange-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--gold-bright);
+    letter-spacing: 0.15em;
+  }
+  .exchange-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .exchange-stats {
+    display: flex;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-dim);
+  }
+  .exchange-stats span { color: var(--gold); font-weight: 700; }
+  .exchange-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--line);
+  }
+  .ex-card {
+    background: var(--bg-1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .ex-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(201,162,74,0.1); }
+  .ex-art {
+    aspect-ratio: 1;
+    background: var(--bg-2);
+    position: relative;
+    overflow: hidden;
+  }
+  .ex-frozen-badge {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(10,9,8,0.85);
+    border: 1px solid var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    padding: 3px 7px;
+    text-transform: uppercase;
+  }
+  .ex-migrated-badge {
+    position: absolute;
+    bottom: 10px; left: 10px;
+    background: rgba(10,9,8,0.85);
+    border: 1px solid var(--ink-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--ink-dim);
+    padding: 3px 7px;
+  }
+  .ex-body {
+    padding: 14px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .ex-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .ex-creator {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+  }
+  .ex-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-dim);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .ex-price-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 6px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    flex-wrap: wrap;
+  }
+  .ex-price-stack { display: flex; flex-direction: column; gap: 2px; }
+  .ex-frozen { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-dim); text-decoration: line-through; }
+  .ex-ask {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .ex-change {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+  }
+  .ex-change.up { color: var(--moss); }
+  .ex-change.down { color: var(--rust); }
+  .ex-history {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--ink-dim);
+    letter-spacing: 0.05em;
+  }
+  .ex-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .ex-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 9px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--bg-2);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .ex-btn:hover { background: var(--gold); color: var(--bg-0); }
+  .ex-btn.offer { border-color: var(--moss); color: var(--moss); }
+  .ex-btn.offer:hover { background: var(--moss); color: var(--bg-0); }
+  .ex-btn.mm { border-color: var(--ink-dim); color: var(--ink-dim); font-size: 9px; }
+  .ex-btn.mm:hover { background: var(--ink-dim); color: var(--bg-0); }
+  .ex-btn.relist { border-color: var(--gold); }
+  .ex-empty {
+    grid-column: 1 / -1;
+    padding: 48px 20px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.15em;
+  }
+  /* Offer input inline */
+  .ex-offer-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    display: none;
+  }
+  .ex-offer-row.open { display: flex; }
+  .ex-offer-input {
+    flex: 1;
+    background: var(--bg-2);
+    border: 1px solid var(--gold);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+  .ex-offer-send {
+    padding: 7px 14px;
+    background: var(--moss);
+    border: none;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+  }
+  /* Migration flash */
+  @keyframes migrateFlash {
+    0%   { background: rgba(201,162,74,0.25); }
+    100% { background: var(--bg-1); }
+  }
+  .ex-card.just-migrated { animation: migrateFlash 2s ease forwards; }
+
 </style>
 </head>
 <body>
@@ -2252,6 +2639,37 @@
     <button class="sort-btn" data-sort="combined" onclick="setSort('combined')">▲ Score × Volume</button>
   </div>
   <div class="grid reveal-stagger" id="grid"></div>
+
+  <!-- ── THE EXCHANGE — Secondary Market ───────────────────────────── -->
+  <div class="exchange-section reveal" id="exchangeSection">
+    <div class="exchange-header">
+      <div>
+        <div class="exchange-title">⬡ The Exchange</div>
+        <div class="exchange-subtitle">Secondary Market · Free price discovery · Price frozen at week close</div>
+      </div>
+      <div class="exchange-stats">
+        <div>Listings <span id="exCount">0</span></div>
+        <div>Volume <span id="exVolume">0</span></div>
+      </div>
+    </div>
+    <div class="exchange-grid" id="exchangeGrid"></div>
+  </div>
+
+
+  <!-- ── THE EXCHANGE — Secondary Market ──────────────────────────── -->
+  <div class="exchange-section reveal" id="exchangeSection">
+    <div class="exchange-header">
+      <div>
+        <div class="exchange-title">◈ The Exchange</div>
+        <div class="exchange-subtitle">Secondary Market · Free price discovery · Oracle price frozen at migration</div>
+      </div>
+      <div class="exchange-badge">
+        <span></span>
+        <span id="exchangeCount">0 listings</span>
+      </div>
+    </div>
+    <div id="exchangeGrid"></div>
+  </div>
 </div>
 
 <!-- VOTE MODAL -->
@@ -2314,7 +2732,7 @@
     </div>
     <div class="list-form">
       <div>
-        <label>Item Image <span style="color:var(--ink-dim);font-size:9px;letter-spacing:0.1em;">(OPTIONAL · JPG/PNG/GIF/WEBP · MAX 2MB)</span></label>
+        <label>Item Image <span style="color:var(--ink-dim);font-size:9px;letter-spacing:0.1em;">(OPTIONAL · JPG/PNG/GIF/WEBP · MAX 10MB)</span></label>
         <div class="img-upload-zone" id="newImgZone">
           <input type="file" id="newImgFile" accept="image/jpeg,image/png,image/gif,image/webp" onchange="handleImageUpload('new')">
           <span class="upload-icon">⬆</span>
@@ -2327,16 +2745,6 @@
             <span class="ipfs-badge" id="newCidBadge">IPFS/AR</span>
           </div>
         </div>
-      </div>
-      <div id="newAudioSection">
-        <label>Music Track <span style="color:var(--ink-dim);font-size:9px;letter-spacing:0.1em;">(OPTIONAL · MP3/WAV/OGG · MAX 10MB · shown when Music category selected)</span></label>
-        <div class="audio-upload-zone" id="newAudioZone">
-          <input type="file" id="newAudioFile" accept="audio/mpeg,audio/wav,audio/ogg,audio/mp3" onchange="handleAudioUpload('new')">
-          <span class="upload-icon" style="font-size:22px;">♪</span>
-          <div class="upload-prompt">Click or drag to upload audio</div>
-        </div>
-        <button class="img-upload-clear" id="newAudioClear" style="display:none" onclick="clearAudio('new')">✕ Remove audio</button>
-        <div id="newAudioPreview" style="display:none;margin-top:8px;"></div>
       </div>
       <div>
         <label>Item Name</label>
@@ -2360,10 +2768,17 @@
         <label>Editions <span style="color:var(--rust);font-size:9px;letter-spacing:0.1em;">MIN ${MIN_EDITIONS}</span></label>
         <input type="number" id="newEditions" placeholder="5" min="${MIN_EDITIONS}" max="10000" value="${MIN_EDITIONS}">
       </div>
+      <div>
+        <label>Base Price <span style="color:var(--ink-dim);font-size:9px;letter-spacing:0.1em;">11 – 69,420 $PvE</span></label>
+        <input type="number" id="newBasePrice" placeholder="100" min="11" max="69420" value="100" oninput="updateListPreview()">
+      </div>
       <div class="price-preview">
-        <div style="font-size:10px;color:var(--ink-dim);margin-bottom:6px;">Price is set by the Oracle — rarity × current multiplier</div>
-        Oracle price (×<span id="curMult">2.10</span> · <span id="curRarityFeeLabel">+0%</span> rarity):
-        <div class="calc" id="newCalc">— $PvE</div>
+        <div style="font-size:10px;color:var(--ink-dim);margin-bottom:6px;">Oracle multiplier applied at sale · final price = your base × multiplier</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div>Current price (×<span id="curMult">1.00</span>):
+            <div class="calc" id="newCalc">— $PvE</div>
+          </div>
+        </div>
         <div style="font-size:10px;margin-top:8px;color:var(--gold);">⬡ ${LISTING_DEPOSIT} $PvE deposit · NFT minted on confirm · max 69,420 $PvE</div>
       </div>
       <div class="modal-actions">
@@ -2534,7 +2949,7 @@ function ipfsUrl(cid) {
 const GRACE_PERIOD_MS = 7 * 24 * 60 * 60 * 1000;  // 7 days
 const REPORT_THRESHOLD = 3;             // Reports before listing is auto-hidden for review
 const LP_TOTAL = 300_000_000;           // 30% of 1B token supply = LP pool
-const LP_MM_RESERVE = LP_TOTAL * 0.05;  // 5% of LP allocated to market making (~15M $PvE)
+const LP_MM_RESERVE = 100_000_000;       // LP Market Maker pool — 100M $PvE
 const MM_BID_PCT   = 0.80;              // MM bids at 80% of list price (wPvE instant liquidity)
 const MM_RELIST_PCT = 1.00;             // MM relists acquired items at 100% of original price
 const MARKETPLACE_FEE = 0.001;           // 0.1% marketplace fee on all sales
@@ -2649,6 +3064,10 @@ const state = {
   txHistory: [],     // [{ type: 'buy'|'sell'|'list'|'unlist', itemName, amount, ts }]
   drawerTab: 'inventory',
   sortOrder: 'score',
+  exchange: [],        // items migrated from Oracle Market after week ends [{...item, frozenPrice, askPrice, priceHistory:[]}]
+  lastWeekKey: null,   // tracks when to trigger auto-migration
+  lastWeekKey: null,   // tracks the current week key to detect Monday resets
+  secondaryItems: [],  // items migrated from Oracle Market after week reset
   // P&L ledger — one entry per realized sale
   pnlLedger: [],     // [{ itemName, rarity, costBasis, salePrice, pnl, ts }]
   totalCostBasis: 0, // running total of what was spent on currently held items
@@ -2836,8 +3255,8 @@ state.items = seedItems.map((item, i) => ({
   editionsSold: 0      // how many of this item's editions have been purchased
 }));
 
-// LP Market Maker — starts with 5% of LP pool as trading budget
-state.mmBalance  = LP_MM_RESERVE;   // ~15M $PvE available to bid
+// LP Market Maker — 100M $PvE trading budget
+state.mmBalance  = LP_MM_RESERVE;   // 100M $PvE available to bid
 state.mmInventory = [];              // items MM has bought and is holding for relist
 
 const $ = (id) => document.getElementById(id);
@@ -3060,6 +3479,7 @@ function sortItems(items) {
 }
 
 function render() {
+  checkWeeklyReset();
   const founderScore = computeScore();
   const mult = scoreToMultiplier(founderScore);
   $('multiplier').textContent = '×' + mult.toFixed(2);
@@ -3263,6 +3683,7 @@ function render() {
 
   renderTicker();
   renderLedger();
+  renderExchange();
   // Draw waveforms after DOM updates (needs canvas in DOM first)
   setTimeout(drawDeferredWaveforms, 50);
 }
@@ -3453,8 +3874,8 @@ const imageStaging = { new: null, sell: null }; // base64 data URLs
 function handleImageUpload(ctx) {
   const file = $(`${ctx}ImgFile`).files[0];
   if (!file) return;
-  if (file.size > 2 * 1024 * 1024) {
-    toast('Image too large — max 2MB', 'error');
+  if (file.size > 10 * 1024 * 1024) {
+    toast('Image too large — max 10MB', 'error');
     $(`${ctx}ImgFile`).value = '';
     return;
   }
@@ -3626,12 +4047,7 @@ function togglePlay(itemId, dataUrl) {
 }
 
 // Show/hide audio section based on category selection
-document.addEventListener('change', (e) => {
-  if (e.target.id === 'newCategory') {
-    const audioSec = $('newAudioSection');
-    if (audioSec) audioSec.style.display = e.target.value === 'music' ? 'block' : 'none';
-  }
-});
+// Category change listener removed — audio upload removed from list modal
 
 // Music card art renderer — called from grid render when item.category === 'music'
 function renderMusicCard(item) {
@@ -3713,11 +4129,11 @@ function openListModal() {
   }
   $('newName').value = '';
   $('newDesc').value = '';
+  if ($('newBasePrice')) $('newBasePrice').value = '100';
   if ($('newCategory')) $('newCategory').value = 'item';
   if ($('newImgCid')) $('newImgCid').value = '';
   if ($('newEditions')) $('newEditions').value = MIN_EDITIONS;
   if ($('newCidBadge')) { $('newCidBadge').className = 'ipfs-badge'; $('newCidBadge').textContent = 'IPFS/AR'; }
-  clearAudio('new');
   clearImage('new');
   if ($('listModalCap')) $('listModalCap').textContent = `${myActive} of ${FOUNDER_LISTING_CAP} slots used`;
   updateListPreview();
@@ -3725,10 +4141,10 @@ function openListModal() {
 }
 
 function updateListPreview() {
-  const mult = scoreToMultiplier(computeScore());
-  const base = 100;  // default base; actual price derived from item.basePrice at listing time
+  const base  = Math.min(69420, Math.max(11, parseFloat($('newBasePrice')?.value) || 100));
+  const mult  = scoreToMultiplier(computeScore());
   const final = Math.min(base * mult, MAX_FINAL_PRICE);
-  const el = $('newCalc');
+  const el    = $('newCalc');
   if (el) {
     el.textContent = fmt(final) + ' $PvE' + (base * mult > MAX_FINAL_PRICE ? ' ⚠ capped' : '');
     el.style.color = base * mult > MAX_FINAL_PRICE ? 'var(--rust)' : 'var(--gold-bright)';
@@ -3741,9 +4157,14 @@ function submitListing() {
   const desc     = $('newDesc').value.trim();
   const editions = parseInt($('newEditions')?.value || MIN_EDITIONS);
   const category = ($('newCategory') && $('newCategory').value) || 'item';
+  const basePrice = parseFloat($('newBasePrice')?.value);
 
   if (!name || !desc) {
     toast('Fill all fields with valid values', 'error');
+    return;
+  }
+  if (isNaN(basePrice) || basePrice < 11 || basePrice > MAX_FINAL_PRICE) {
+    toast(`Price must be between 11 and ${MAX_FINAL_PRICE.toLocaleString()} $PvE`, 'error');
     return;
   }
   if (isNaN(editions) || editions < MIN_EDITIONS) {
@@ -3760,16 +4181,11 @@ function submitListing() {
     return;
   }
 
-  state.balance     -= LISTING_DEPOSIT;
+  state.balance      -= LISTING_DEPOSIT;
   state.lockedDeposit += LISTING_DEPOSIT;
 
   const imageUrl = imageStaging.new || null;
   const ipfsCid  = ($('newImgCid') && $('newImgCid').value.trim()) || null;
-
-  // Derive a stable base price from the item name (80–400 range)
-  let h = 0;
-  for (let i = 0; i < name.length; i++) h = ((h << 5) - h + name.charCodeAt(i)) | 0;
-  const basePrice = 80 + (Math.abs(h) % 321);  // 80–400
 
   const mockTokenId = 'T-' + Math.floor(Math.random() * 9000 + 1000);
   const mockTxHash  = '0x' + [...Array(8)].map(() => Math.floor(Math.random()*16).toString(16)).join('') + '...';
@@ -3800,7 +4216,7 @@ function submitListing() {
   state.myListings.push(newItem.id);
   logTx('list', name, basePrice);
   closeOverlay('listOverlay');
-  toast(`Listed · ${editions} editions · NFT ${mockTokenId} · ${LISTING_DEPOSIT} $PvE deposit locked`, 'success');
+  toast(`Listed · ${editions} editions · ${fmt(basePrice)} base · NFT ${mockTokenId} · ${LISTING_DEPOSIT} $PvE deposit locked`, 'success');
   render();
 }
 
@@ -4751,6 +5167,462 @@ function animateCounter(el, from, to, duration, suffix) {
   requestAnimationFrame(step);
 }
 
+
+// ════════════════════════════════════════════════════════════════════
+// SECONDARY MARKET — The Exchange
+// Items auto-migrate here when the weekly Oracle resets (Monday UTC).
+// Price is frozen at the multiplier from the moment of migration.
+// Sellers can relist at any price; LP MM bids at 80% of ask.
+// ════════════════════════════════════════════════════════════════════
+
+function migrateToExchange() {
+  // Called when week key changes — moves all unsold Oracle items to Exchange
+  const mult = scoreToMultiplier(state.founderScore);
+  const migrated = [];
+
+  state.items = state.items.filter(item => {
+    if (item.sold || item.listedByMe) return true; // keep user's own items & sold
+    // Freeze the price at current multiplier
+    const frozenPrice = Math.round(calcFinalPrice(item, mult));
+    state.secondaryItems.push({
+      ...item,
+      id: 'ex_' + item.id,
+      frozenPrice,           // price locked at migration
+      askPrice: frozenPrice, // starting ask = frozen price (seller can change)
+      lastSalePrice: null,
+      priceHistory: [],
+      migratedAt: Date.now(),
+      migratedWeek: currentWeekKey(),
+      frozenMult: mult,
+    });
+    migrated.push(item.name);
+    return false; // remove from Oracle market
+  });
+
+  if (migrated.length > 0) {
+    toast(`Week reset · ${migrated.length} item${migrated.length > 1 ? 's' : ''} migrated to The Exchange`, 'success');
+  }
+  renderExchange();
+}
+
+function checkWeekReset() {
+  const wk = currentWeekKey();
+  if (state.lastWeekKey && state.lastWeekKey !== wk) {
+    // New week — reset score and migrate items
+    state.founderScore = SCORE_BASE;
+    state.prevScore    = SCORE_BASE;
+    persistScore(SCORE_BASE);
+    migrateToExchange();
+  }
+  state.lastWeekKey = wk;
+}
+
+function buyFromExchange(exId) {
+  const item = state.secondaryItems.find(i => i.id === exId);
+  if (!item || item.editionsSold >= item.editions) return;
+  const cost = Math.round(item.askPrice * 1.001); // 0.1% fee
+  if (state.balance < cost) { toast('Insufficient balance', 'error'); return; }
+
+  state.balance -= cost;
+  item.editionsSold = (item.editionsSold || 0) + 1;
+  item.lastSalePrice = item.askPrice;
+  item.priceHistory.push({ price: item.askPrice, ts: Date.now() });
+
+  // MM bids at 80% of ask
+  const mmBid = Math.round(item.askPrice * 0.80);
+  if (state.mmBalance >= mmBid) {
+    state.mmBalance -= mmBid;
+    state.mmInventory.push({ ...item, boughtAt: mmBid });
+  }
+
+  // Add to inventory
+  const edNum = item.editionsSold;
+  state.inventory.push({
+    invId: 'inv_ex_' + Date.now(),
+    id: item.id,
+    name: item.name,
+    desc: item.desc,
+    paidAmount: cost,
+    basePrice: item.basePrice,
+    rarity: 'standard',
+    editionNumber: edNum,
+    totalEditions: item.editions,
+    imageUrl: item.imageUrl || null,
+    tokenId: item.tokenId || null,
+    acquiredAt: Date.now(),
+    fromExchange: true,
+  });
+  state.totalCostBasis += cost;
+
+  // Remove if all editions sold
+  if (item.editionsSold >= item.editions) {
+    state.secondaryItems = state.secondaryItems.filter(i => i.id !== exId);
+  }
+
+  logTx('buy', item.name, cost);
+  toast(`Bought from Exchange · Ed.${edNum}/${item.editions} · ${fmt(cost)} $PvE`, 'success');
+  renderExchange();
+  render();
+}
+
+function instantSellExchange(exId, invId) {
+  const item = state.secondaryItems.find(i => i.id === exId);
+  const inv  = state.inventory.find(i => i.invId === invId);
+  if (!item || !inv) return;
+  const payout = Math.round(item.askPrice * 0.80);
+  if (state.mmBalance < payout) { toast('MM has insufficient budget', 'error'); return; }
+  state.mmBalance   -= payout;
+  state.balance     += payout;
+  const pnl = payout - inv.paidAmount;
+  state.totalRealized   += pnl;
+  state.totalCostBasis   = Math.max(0, state.totalCostBasis - inv.paidAmount);
+  state.pnlLedger.unshift({
+    itemName: inv.name, costBasis: inv.paidAmount,
+    salePrice: payout, pnl, ts: Date.now(), via: 'exchange-mm', edition: inv.editionNumber
+  });
+  state.inventory = state.inventory.filter(i => i.invId !== invId);
+  logTx('sell', inv.name, payout);
+  toast(`⬡ Sold to MM · +${fmt(payout)} $PvE`, 'success');
+  renderExchange();
+  renderDrawer();
+  render();
+}
+
+function toggleRelistRow(exId) {
+  const row = document.getElementById('relist_' + exId);
+  if (row) row.classList.toggle('open');
+}
+
+function confirmRelist(exId) {
+  const item  = state.secondaryItems.find(i => i.id === exId);
+  const input = document.getElementById('relistInput_' + exId);
+  if (!item || !input) return;
+  const newPrice = parseFloat(input.value);
+  if (isNaN(newPrice) || newPrice <= 0) { toast('Enter a valid price', 'error'); return; }
+  if (newPrice > MAX_FINAL_PRICE) { toast(`Max price is ${fmt(MAX_FINAL_PRICE)} $PvE`, 'error'); return; }
+  const old = item.askPrice;
+  item.askPrice = Math.round(newPrice);
+  toggleRelistRow(exId);
+  toast(`Price updated · ${fmt(old)} → ${fmt(item.askPrice)} $PvE`, 'success');
+  renderExchange();
+}
+
+function renderExchange() {
+  const grid   = document.getElementById('exchangeGrid');
+  const count  = document.getElementById('exchangeCount');
+  if (!grid) return;
+
+  const active = state.secondaryItems.filter(i => !i.sold && (i.editionsSold || 0) < i.editions);
+  if (count) count.textContent = active.length + ' listing' + (active.length !== 1 ? 's' : '');
+
+  if (active.length === 0) {
+    grid.innerHTML = `<div class="ex-empty">No secondary listings yet — items migrate here after each weekly Oracle reset.</div>`;
+    return;
+  }
+
+  // Check which exchange items the user owns (to show sell/relist options)
+  const ownedExIds = {};
+  state.inventory.filter(i => i.fromExchange).forEach(i => {
+    const exId = 'ex_' + i.id.replace('ex_', '');
+    if (!ownedExIds[exId]) ownedExIds[exId] = i.invId;
+  });
+
+  grid.innerHTML = active.map(item => {
+    const isMine   = ownedExIds[item.id];
+    const edLeft   = item.editions - (item.editionsSold || 0);
+    const pct      = item.lastSalePrice
+      ? (((item.askPrice - item.lastSalePrice) / item.lastSalePrice) * 100).toFixed(1)
+      : null;
+    const changeClass = pct === null ? 'flat' : pct > 0 ? 'up' : pct < 0 ? 'down' : 'flat';
+    const changeStr   = pct === null ? '—' : (pct > 0 ? '▲' : '▼') + ' ' + Math.abs(pct) + '%';
+
+    // Tiny art using item name hash
+    const artCanvas = `<canvas id="exart_${item.id}" width="52" height="52"></canvas>`;
+
+    return `
+      <div class="ex-item" id="exrow_${item.id}">
+        <div class="ex-art">${artCanvas}</div>
+        <div>
+          <div class="ex-name">${item.name}</div>
+          <div class="ex-meta">
+            <span class="frozen">⬡ frozen ${item.frozenMult}×</span>
+            <span class="editions">${edLeft}/${item.editions} left</span>
+            <span>by @${item.creator}</span>
+            <span style="color:var(--ink-dim);">${timeAgo ? timeAgo(item.migratedAt) : ''} ago</span>
+          </div>
+        </div>
+        <div class="ex-last-col">
+          <div class="ex-last-price">${item.lastSalePrice ? fmt(item.lastSalePrice) : '—'}</div>
+          <div class="ex-change ${changeClass}">${changeStr}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-dim);margin-top:2px;">LAST SALE</div>
+        </div>
+        <div class="ex-price-col">
+          <div class="ex-ask">${fmt(item.askPrice)}</div>
+          <div class="ex-ask-label">$PvE ask</div>
+        </div>
+        <div class="ex-actions">
+          ${!isMine ? `<button class="ex-btn" onclick="buyFromExchange('${item.id}')">Buy</button>` : ''}
+          ${isMine ? `<button class="ex-btn mm" onclick="instantSellExchange('${item.id}', '${ownedExIds[item.id]}')">⬡ MM ${fmt(Math.round(item.askPrice * 0.80))}</button>` : ''}
+          ${isMine ? `<button class="ex-btn relist" onclick="toggleRelistRow('${item.id}')">Relist</button>` : ''}
+          <div class="ex-relist-row" id="relist_${item.id}">
+            <input class="ex-relist-input" id="relistInput_${item.id}" type="number" placeholder="${item.askPrice}" min="1" max="${MAX_FINAL_PRICE}">
+            <button class="ex-btn" onclick="confirmRelist('${item.id}')">Confirm</button>
+            <button class="ex-btn" style="border-color:var(--rust);color:var(--rust)" onclick="toggleRelistRow('${item.id}')">Cancel</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  // Draw tiny art canvases
+  setTimeout(() => {
+    active.forEach(item => {
+      const c = document.getElementById('exart_' + item.id);
+      if (c) {
+        const ctx = c.getContext('2d');
+        itemArt(item.name, item.rarity || 'standard').then ? null : drawItemArtOnCanvas(ctx, item.name, item.rarity || 'standard', 52);
+      }
+    });
+  }, 20);
+}
+
+function drawItemArtOnCanvas(ctx, name, rarity, size) {
+  // Reuse itemArt SVG generation but draw on canvas
+  const svg = itemArt(name, rarity);
+  const img = new Image();
+  const blob = new Blob([svg], { type: 'image/svg+xml' });
+  const url  = URL.createObjectURL(blob);
+  img.onload = () => { ctx.drawImage(img, 0, 0, size, size); URL.revokeObjectURL(url); };
+  img.src = url;
+}
+
+
+// ══════════════════════════════════════════════════════════════════════
+// WEEKLY RESET DETECTION + AUTO-MIGRATION TO THE EXCHANGE
+// ══════════════════════════════════════════════════════════════════════
+
+function checkWeeklyReset() {
+  const wk = currentWeekKey();
+  if (!state.lastWeekKey) {
+    state.lastWeekKey = wk;
+    return;
+  }
+  if (state.lastWeekKey !== wk) {
+    // A new week has started — migrate unsold Oracle items to the Exchange
+    const finalMult = scoreToMultiplier(state.founderScore);
+    const migrated = [];
+
+    state.items = state.items.filter(item => {
+      if (item.sold) return true; // sold items stay in history
+      // Freeze price at last week's final multiplier
+      const frozenPrice = Math.round(calcFinalPrice(item, finalMult));
+      const exItem = {
+        ...item,
+        exId:         'ex_' + item.id,
+        frozenPrice,
+        askPrice:     frozenPrice,
+        offers:       [],
+        priceHistory: [{ price: frozenPrice, ts: Date.now(), label: 'Migrated from Oracle' }],
+        migratedAt:   Date.now(),
+        weekMigrated: state.lastWeekKey,
+        justMigrated: true,
+      };
+      state.exchange.unshift(exItem);
+      migrated.push(item.name);
+      return false; // remove from Oracle market
+    });
+
+    // Reset score for new week (sawtooth reset)
+    state.founderScore = SCORE_BASE;
+    state.prevScore    = SCORE_BASE;
+    persistScore(SCORE_BASE);
+
+    // Reset weekly votes
+    state.weeklyVotes = {};
+
+    state.lastWeekKey = wk;
+
+    if (migrated.length) {
+      toast(`⬡ Week reset · ${migrated.length} item${migrated.length > 1 ? 's' : ''} migrated to The Exchange`, 'success');
+      // Clear justMigrated flag after animation
+      setTimeout(() => {
+        state.exchange.forEach(e => { e.justMigrated = false; });
+        renderExchange();
+      }, 2500);
+    }
+  }
+}
+
+// ── EXCHANGE RENDER ──────────────────────────────────────────────────
+function renderExchange() {
+  const grid    = document.getElementById('exchangeGrid');
+  const countEl = document.getElementById('exCount');
+  const volEl   = document.getElementById('exVolume');
+  if (!grid) return;
+
+  const items = state.exchange.filter(i => !i.exSold);
+  if (countEl) countEl.textContent = items.length;
+  if (volEl) {
+    const vol = state.exchange
+      .filter(i => i.exSold)
+      .reduce((s, i) => s + (i.lastSalePrice || 0), 0);
+    volEl.textContent = fmt(vol);
+  }
+
+  if (!items.length) {
+    grid.innerHTML = '<div class="ex-empty">No secondary listings yet · items migrate here at the end of each Oracle week</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(item => {
+    const pctChange = item.frozenPrice > 0
+      ? (((item.askPrice - item.frozenPrice) / item.frozenPrice) * 100).toFixed(1)
+      : '0.0';
+    const isUp   = item.askPrice >= item.frozenPrice;
+    const mmBid  = Math.round(item.askPrice * MM_BID_PCT);
+    const isMine = state.myListings.includes(item.id);
+    const hasInv = state.inventory.some(inv => inv.name === item.name);
+    const lastSale = item.priceHistory.length > 1
+      ? item.priceHistory[item.priceHistory.length - 1]
+      : null;
+
+    return `<div class="ex-card${item.justMigrated ? ' just-migrated' : ''}" id="excard_${item.exId}">
+      <div class="ex-art">
+        ${renderArt(item, 'ex')}
+        <div class="ex-frozen-badge">⬡ Exchange</div>
+        <div class="ex-migrated-badge">Wk ${item.weekMigrated || '—'}</div>
+      </div>
+      <div class="ex-body">
+        <div class="ex-name">${item.name}</div>
+        <div class="ex-creator">@${item.creator} · ${(item.editions||1) - (item.editionsSold||0)} left</div>
+        <div class="ex-desc">${item.desc}</div>
+        <div class="ex-price-row">
+          <div class="ex-price-stack">
+            <div class="ex-frozen">Frozen ${fmt(item.frozenPrice)}</div>
+            <div class="ex-ask">${fmt(item.askPrice)} <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-dim);">$PvE</span></div>
+            <div class="ex-change ${isUp ? 'up' : 'down'}">${isUp ? '▲' : '▼'} ${Math.abs(pctChange)}% from freeze</div>
+            ${lastSale ? `<div class="ex-history">Last sale ${fmt(lastSale.price)}</div>` : ''}
+          </div>
+          <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-dim);">
+            ${item.priceHistory.length} tx${item.priceHistory.length !== 1 ? 's' : ''}
+          </div>
+        </div>
+        <div class="ex-actions">
+          ${isMine
+            ? `<button class="ex-btn relist" onclick="exRelist('${item.exId}')">Relist</button>`
+            : `<button class="ex-btn" onclick="exBuy('${item.exId}')">Buy ${fmt(item.askPrice)}</button>`
+          }
+          ${!isMine
+            ? `<button class="ex-btn offer" onclick="exToggleOffer('${item.exId}')">Offer</button>`
+            : ''
+          }
+          ${hasInv
+            ? `<button class="ex-btn mm" onclick="exInstantSell('${item.exId}', ${mmBid})" title="Sell to LP MM at 80%">⬡ MM ${fmt(mmBid)}</button>`
+            : ''
+          }
+        </div>
+        <div class="ex-offer-row" id="offerrow_${item.exId}">
+          <input class="ex-offer-input" type="number" id="offerinput_${item.exId}" placeholder="Your offer in $PvE" min="1">
+          <button class="ex-offer-send" onclick="exSendOffer('${item.exId}')">Send</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── EXCHANGE ACTIONS ─────────────────────────────────────────────────
+function exBuy(exId) {
+  const item = state.exchange.find(i => i.exId === exId);
+  if (!item) return;
+  const cost = item.askPrice * 1.001; // 0.1% fee
+  if (state.balance < cost) { toast('Insufficient balance', 'error'); return; }
+  state.balance -= cost;
+  state.totalCostBasis += cost;
+  state.inventory.push({
+    ...item,
+    invId:         'inv_ex_' + Date.now(),
+    paidAmount:    cost,
+    source:        'exchange',
+    editionNumber: (item.editionsSold || 0) + 1,
+    totalEditions: item.editions || 1,
+  });
+  item.editionsSold = (item.editionsSold || 0) + 1;
+  item.lastSalePrice = item.askPrice;
+  item.priceHistory.push({ price: item.askPrice, ts: Date.now(), label: 'Market buy' });
+  if (item.editionsSold >= (item.editions || 1)) item.exSold = true;
+
+  // MM bids at 80%
+  const mmBid = Math.round(item.askPrice * MM_BID_PCT);
+  if (state.mmBalance >= mmBid) {
+    state.mmBalance -= mmBid;
+    state.mmInventory.push({ ...item, mmAcquiredAt: Date.now() });
+  }
+
+  state.totalCostBasis += cost;
+  logTx('buy', item.name, cost);
+  toast(`Bought ${item.name} · Ed.${item.editionNumber} · ${fmt(cost)} $PvE`, 'success');
+  renderExchange();
+  if ($('walletDrawer')?.classList.contains('show')) renderDrawer();
+}
+
+function exRelist(exId) {
+  const item = state.exchange.find(i => i.exId === exId);
+  if (!item) return;
+  const input = prompt(`Relist "${item.name}" at new price ($PvE)?\nCurrent ask: ${item.askPrice}`, item.askPrice);
+  if (!input) return;
+  const newPrice = parseFloat(input);
+  if (isNaN(newPrice) || newPrice <= 0) { toast('Invalid price', 'error'); return; }
+  item.priceHistory.push({ price: item.askPrice, ts: Date.now(), label: `Relisted → ${newPrice}` });
+  item.askPrice = newPrice;
+  toast(`Relisted at ${fmt(newPrice)} $PvE`, 'success');
+  renderExchange();
+}
+
+function exToggleOffer(exId) {
+  const row = document.getElementById('offerrow_' + exId);
+  if (row) row.classList.toggle('open');
+}
+
+function exSendOffer(exId) {
+  const item   = state.exchange.find(i => i.exId === exId);
+  const input  = document.getElementById('offerinput_' + exId);
+  if (!item || !input) return;
+  const offer  = parseFloat(input.value);
+  if (isNaN(offer) || offer <= 0) { toast('Enter a valid offer amount', 'error'); return; }
+  if (state.balance < offer) { toast('Insufficient balance for this offer', 'error'); return; }
+
+  item.offers.push({ amount: offer, from: state.myWallet, ts: Date.now() });
+
+  // Auto-accept if offer >= ask (simplified: in production the seller approves)
+  if (offer >= item.askPrice) {
+    exBuy(exId);
+    toast(`Offer of ${fmt(offer)} accepted — at or above ask`, 'success');
+  } else {
+    toast(`Offer of ${fmt(offer)} $PvE sent to seller · ${Math.round((offer/item.askPrice)*100)}% of ask`, '');
+    input.value = '';
+    exToggleOffer(exId);
+  }
+  renderExchange();
+}
+
+function exInstantSell(exId, payout) {
+  const item = state.exchange.find(i => i.exId === exId);
+  if (!item) return;
+  if (state.mmBalance < payout) { toast('LP MM has insufficient funds', 'error'); return; }
+  state.mmBalance -= payout;
+  state.balance += payout;
+  const invIdx = state.inventory.findIndex(i => i.name === item.name);
+  if (invIdx !== -1) {
+    const inv = state.inventory.splice(invIdx, 1)[0];
+    const pnl = payout - inv.paidAmount;
+    state.totalRealized += pnl;
+    state.pnlLedger.unshift({ itemName: item.name, costBasis: inv.paidAmount, salePrice: payout, pnl, ts: Date.now(), via: 'exchange-mm' });
+  }
+  item.priceHistory.push({ price: payout, ts: Date.now(), label: 'MM instant sell' });
+  toast(`⬡ MM instant sell · +${fmt(payout)} $PvE`, 'success');
+  renderExchange();
+  if ($('walletDrawer')?.classList.contains('show')) renderDrawer();
+}
+
 // Load persisted score for current week (survives page reloads within same week)
 state.founderScore = loadPersistedScore();
 state.prevScore    = state.founderScore;
@@ -4758,7 +5630,16 @@ state.prevScore    = state.founderScore;
 render();
 
 // Refresh eligibility UI every minute so the reset countdown stays accurate
-setInterval(() => updateEligibilityUI(), 60000);
+setInterval(() => {
+  updateEligibilityUI();
+  checkWeekReset();
+}, 60000);
+
+// Check immediately on load in case page was left open over a reset
+checkWeekReset();
+
+// Initial exchange render
+renderExchange();
 
 
 </script>
